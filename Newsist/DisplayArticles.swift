@@ -11,10 +11,10 @@ import SDWebImage
 import SDWebImageSwiftUI
 
 struct DisplayArticles: View {
-    @ObservedObject private var postListMV = ArticilesListViewModel()
+    @ObservedObject public var postListMV = ArticilesListViewModel()
     
     var body: some View {
-        ZStack {
+//        ZStack {
             VStack {
                 VStack {
                     HStack {
@@ -34,7 +34,7 @@ struct DisplayArticles: View {
                         .frame(height: 10)
                 }
                 List(self.postListMV.articiles, id: \.id) { post in
-                    NavigationLink(destination: DetailedView(url: post.url)) {
+                    NavigationLink(destination: TrendingView(item: post.articile)) {
                         VStack(alignment: .leading) {
                             Text(post.topic)
                                 .font(.headline)
@@ -51,36 +51,17 @@ struct DisplayArticles: View {
                                 Text(post.description)
                                     .font(.subheadline)
                             }
-                            VStack(alignment: .leading) {
-                                HStack(alignment: .top) {
-                                    Image("fire")
-                                        .resizable()
-                                        .frame(width: 20,height:20)
-                                    Text("1,504 users reading")
-                                }
-                                HStack {
-                                    Image("world")
-                                        .resizable()
-                                        .frame(width: 20,height:20)
-                                    Text("Covered by CNN, Fox News + 30")
-                                }
-                                HStack {
-                                    Image("head")
-                                        .resizable()
-                                        .frame(width: 20,height:20)
-                                    Text("Reporting is balanced")
-                                }
-                            }
+                            StatsView(item: post.articile)
                         }
                     }
                 }
             }
-            VStack {
-                Text("hello")
-            }
-                .frame(width: 100, height: 100)
-                .background(Color.gray)
-        }
+//            VStack {
+//                Text("hello")
+//            }
+//                .frame(width: 100, height: 100)
+//                .background(Color.gray)
+//        }
     }
 }
 

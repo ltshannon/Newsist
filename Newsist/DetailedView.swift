@@ -10,16 +10,12 @@ import SwiftUI
 
 struct DetailedView: View {
     let url: String
-    @State var shouldAnimate = true
+    @ObservedObject var indicator = changeIndicator()
         
     var body: some View {
-            
         VStack {
-                
-            Text("testing....")
-//            ActivityIndicator(indicator: self.indicator)
-//            WebView(url: url).edgesIgnoringSafeArea(.all)
-//            SwiftUIWebView(indicator: indicator)
+//            ActivityIndicator(indicator: indicator)
+            SwiftUIWebView(url: url, indicator: indicator)
         }
     }
 }
