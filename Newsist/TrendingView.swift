@@ -12,6 +12,7 @@ import SDWebImageSwiftUI
 
 struct TrendingView: View {
     let item: Articile
+    @Environment(\.presentationMode) var presentation
     
     var body: some View {
         
@@ -19,24 +20,18 @@ struct TrendingView: View {
         return Form {
             Section(header: VStack(alignment: .center, spacing: 0)  {
                 VStack {
-                    Text("STORY")
-                        .font(.custom("Big Caslon Medium", size: 60))
-                    Spacer()
                     Text(item.topic!)
-                        .font(.custom("Avenir", size: 30))
-                        .fontWeight(.heavy)
+                        .font(.custom("Avenir Bold", size: 20))
                         .foregroundColor(Color.red)
-                        .frame(height: 10)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-                .padding()
             }) {
                 EmptyView()
             }.padding([.top], -6)
             Section {
                 VStack(alignment: .leading) {
                     Text(item.title!)
-                        .font(.title)
+                        .font(.custom("Avenir Bold", size: 35))
                     HStack {
                         WebImage(url: URL(string:item.urlToImage!))
                             .resizable()
@@ -44,7 +39,7 @@ struct TrendingView: View {
                             .scaledToFit()
                             .frame(width: 150, height: 150, alignment: .leading)
                         Text(item.description!)
-                            .font(.subheadline)
+                            .font(.custom("Avenir", size: 20))
                     }
                     StatsView(item: item)
                 }
@@ -61,6 +56,14 @@ struct TrendingView: View {
                 }
             }
         }
+        .navigationBarTitle("STORY", displayMode: .inline)
+        .navigationBarItems(leading:
+            Button(action: {
+                self.presentation.wrappedValue.dismiss()
+            }) {
+                Image(systemName: "chevron.left")
+            }
+        )
     }
 }
 

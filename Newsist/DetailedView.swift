@@ -11,12 +11,20 @@ import SwiftUI
 struct DetailedView: View {
     let url: String
     @ObservedObject var indicator = changeIndicator()
+    @Environment(\.presentationMode) var presentation
         
     var body: some View {
         VStack {
 //            ActivityIndicator(indicator: indicator)
             SwiftUIWebView(url: url, indicator: indicator)
         }
+        .navigationBarItems(leading:
+            Button(action: {
+                self.presentation.wrappedValue.dismiss()
+            }) {
+                Image(systemName: "chevron.left")
+            }
+        )
     }
 }
 

@@ -36,8 +36,8 @@ struct NewsCompany: Decodable {
     }
 }
 
-struct Articile {
-    
+struct Articile: Decodable {
+    let id: UUID?
     let topic: String?
     let title: String?
     let description: String?
@@ -49,7 +49,7 @@ struct Articile {
     let newsCompany: [NewsCompany]
     
     init (topic: String, title: String, description: String, userCount: String, coveredBy: String, reportType: String, url: String, urlToImage: String, newsCompany: [NewsCompany]) {
-
+        self.id = UUID()
         self.topic = "U.S. POLITICS"
         self.title = title
         self.description = description
