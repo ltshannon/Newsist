@@ -14,7 +14,10 @@ struct ContentView: View {
     @State var isNavigationBarHidden: Bool = true
     @State var selectedView = 1
     @ObservedObject public var postListMV = ArticilesListViewModel()
-        
+       
+    init() {
+        UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Georgia", size: 30)!]
+    }
     var body: some View {
 //        GeometryReader{ geometry in
         NavigationView {
@@ -36,13 +39,22 @@ struct ContentView: View {
                         Text("Browse")
                     }.tag(2)
             }
-            .hideNavigationBar()
+                .navigationBarTitle("NEWSIST", displayMode: .inline)
+                .navigationBarItems(leading:
+                    Button(action: {
+                        self.postListMV.refresh()
+                    }) {
+                        Image(systemName: "person")
+                    }
+                )
+                
+//            .hideNavigationBar()
 /*
             .navigationBarItems(leading:
                 Button(action: {
                     self.postListMV.refresh()
                 }) {
-                    Image("reload")
+                    Image("person")
                 }
             )
 */

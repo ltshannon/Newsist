@@ -14,15 +14,16 @@ struct TrendingView: View {
     let item: Articile
     
     var body: some View {
+        
         UITableView.appearance().backgroundColor = .clear
         return Form {
             Section(header: VStack(alignment: .center, spacing: 0)  {
                 VStack {
                     Text("STORY")
-                        .font(.custom("Big Caslon Medium", size: 40))
+                        .font(.custom("Big Caslon Medium", size: 60))
                     Spacer()
                     Text(item.topic!)
-                        .font(.custom("Avenir", size: 20))
+                        .font(.custom("Avenir", size: 30))
                         .fontWeight(.heavy)
                         .foregroundColor(Color.red)
                         .frame(height: 10)

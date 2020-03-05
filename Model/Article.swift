@@ -50,7 +50,7 @@ struct Articile {
     
     init (topic: String, title: String, description: String, userCount: String, coveredBy: String, reportType: String, url: String, urlToImage: String, newsCompany: [NewsCompany]) {
 
-        self.topic = "World"
+        self.topic = "U.S. POLITICS"
         self.title = title
         self.description = description
         self.userCount = userCount

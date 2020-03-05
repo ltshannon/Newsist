@@ -17,31 +17,31 @@ struct DisplayArticles: View {
 //        ZStack {
             VStack {
                 VStack {
+/*
                     HStack {
-                        Image("account-outline")
+                        Image(systemName: "person")
                             .resizable()
                             .frame(width: 30,height:30)
                             .padding()
-                        Spacer()
+//                        Spacer()
                         Text("NEWSIST")
-                            .font(.custom("Big Caslon Medium", size: 40))
+                            .font(.custom("Big Caslon Medium", size: 60))
                         Spacer()
                     }
+*/
                     Text("TRENDING")
-                        .font(.custom("Avenir", size: 20))
-                        .fontWeight(.heavy)
+                        .font(.custom("Avenir Bold", size: 20))
                         .foregroundColor(Color.red)
-                        .frame(height: 10)
+                        .padding()
                 }
                 List(self.postListMV.articiles, id: \.id) { post in
                     NavigationLink(destination: TrendingView(item: post.articile)) {
                         VStack(alignment: .leading) {
                             Text(post.topic)
-                                .font(.headline)
-                                .padding()
+                                .font(.custom("Avenir Bold", size: 15))
                                 .foregroundColor(getTopicColor(topic: post.topic))
                             Text(post.title)
-                                .font(.title)
+                                .font(.custom("Avenir Bold", size: 35))
                             HStack {
                                 WebImage(url: URL(string:post.urlToImage))
                                     .resizable()
@@ -49,7 +49,7 @@ struct DisplayArticles: View {
                                     .scaledToFit()
                                     .frame(width: 150, height: 150, alignment: .leading)
                                 Text(post.description)
-                                    .font(.subheadline)
+                                    .font(.custom("Avenir", size: 20))
                             }
                             StatsView(item: post.articile)
                         }
@@ -80,6 +80,8 @@ func getTopicColor(topic: String)-> Color {
         return Color.purple
     case "Sports":
         return Color.black
+    case "U.S. POLITICS":
+        return Color.purple
     default:
         return Color.gray
     }
