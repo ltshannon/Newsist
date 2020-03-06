@@ -26,13 +26,17 @@ struct NewsCompany: Decodable {
     let url: String?
     let urlToImage: String?
     let reading: String?
+    let biased: String?
+    let biasedCount: String?
     
-    init (reporting: String, url: String, urlToImage: String, reading: String) {
+    init (reporting: String, url: String, urlToImage: String, reading: String, biased: String, biasedCount: String) {
         self.id = UUID()
         self.reporting = reporting
         self.url = url
         self.urlToImage = urlToImage
         self.reading = reading
+        self.biased = biased
+        self.biasedCount = biasedCount
     }
 }
 

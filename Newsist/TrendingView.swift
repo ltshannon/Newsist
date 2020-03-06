@@ -47,10 +47,19 @@ struct TrendingView: View {
             Section {
                 List(item.newsCompany, id: \.id) { details in
                     NavigationLink(destination: DetailedView(url: details.url!)) {
-                        VStack(alignment: .leading) {
-                            Text(details.reporting!)
-                                .fontWeight(.heavy)
-                            Text("\(details.reading!) users reading")
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(details.reporting!)
+                                    .fontWeight(.heavy)
+                                Text("\(details.reading!) users reading")
+                            }
+                            Spacer()
+                            Image(details.biased!)
+                                .scaledToFit()
+                                .frame(width: 10, height: 10, alignment: .trailing)
+                            if details.biasedCount != nil {
+                                    Text("+\(details.biasedCount!)")
+                            }
                         }
                     }
                 }

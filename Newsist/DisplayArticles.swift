@@ -85,23 +85,23 @@ struct DisplayArticles: View {
                 var array: [NewsCompany] = []
                 var c: NewsCompany
                 if row[5].count > 0 {
-                    c = NewsCompany.init(reporting: row[5], url: row[6], urlToImage: row[7], reading: row[8])
+                    c = NewsCompany.init(reporting: row[5], url: row[6], urlToImage: row[7], reading: row[8], biased: row[9], biasedCount: row[10])
                     array.append(c)
                 }
-                if row[9].count > 0 {
-                    c = NewsCompany.init(reporting: row[9], url: row[10], urlToImage: row[11], reading: row[12])
-                    array.append(c)
-                }
-                if row[13].count > 0 {
-                    c = NewsCompany.init(reporting: row[13], url: row[14], urlToImage: row[15], reading: row[16])
+                if row[11].count > 0 {
+                    c = NewsCompany.init(reporting: row[11], url: row[12], urlToImage: row[13], reading: row[14], biased: row[15], biasedCount: row[16])
                     array.append(c)
                 }
                 if row[17].count > 0 {
-                    c = NewsCompany.init(reporting: row[17], url: row[18], urlToImage: row[19], reading: row[20])
+                    c = NewsCompany.init(reporting: row[17], url: row[18], urlToImage: row[19], reading: row[20], biased: row[21], biasedCount: row[22])
                     array.append(c)
                 }
-                if row[21].count > 0 {
-                    c = NewsCompany.init(reporting: row[21], url: row[22], urlToImage: row[23], reading: row[24])
+                if row[23].count > 0 {
+                    c = NewsCompany.init(reporting: row[23], url: row[24], urlToImage: row[25], reading: row[26], biased: row[27], biasedCount: row[28])
+                    array.append(c)
+                }
+                if row[29].count > 0 {
+                    c = NewsCompany.init(reporting: row[29], url: row[30], urlToImage: row[31], reading: row[32], biased: row[33], biasedCount: row[34])
                     array.append(c)
                 }
                             

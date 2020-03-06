@@ -17,7 +17,7 @@ struct ContentView: View {
     var body: some View {
 
         TabView(selection: $selectedView) {
-            Text("Coming soon")
+            Text("My Topics Coming soon")
                 .tabItem {
                     Image("newspaper")
                     Text("My Topics")
@@ -25,11 +25,12 @@ struct ContentView: View {
             NavigationView {
                 DisplayArticles()
             }
+                .navigationViewStyle(StackNavigationViewStyle())
                 .tabItem {
                     Image("trending")
                     Text("Trending")
                 }.tag(1)
-            Text("Coming soon")
+            Text("Browse Coming soon")
                 .tabItem {
                     Image("browse")
                     Text("Browse")

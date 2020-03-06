@@ -28,7 +28,7 @@ class WebService {
                 return
             }
 
-            var articiles: [Articile] = []
+//            var articiles: [Articile] = []
             let optionalString: String? = String(decoding: data, as: UTF8.self)
             if  let dataArr = optionalString?.components(separatedBy: "\r\n").map({ $0.components(separatedBy: "\t") })
             {
@@ -37,7 +37,7 @@ class WebService {
                     if row[0] == "topic" {
                         continue
                     }
-                    
+/*
                     var array: [NewsCompany] = []
                     var c: NewsCompany
                     if row[5].count > 0 {
@@ -73,7 +73,9 @@ class WebService {
                                             )
                     articiles.append(item)
 //                    print(row)
+*/
                 }
+
             }
 //            let articiles = try? JSONDecoder().decode([Articile].self, from: data)
             DispatchQueue.main.async {
