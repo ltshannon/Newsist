@@ -10,9 +10,20 @@ import SwiftUI
 import SDWebImage
 import SDWebImageSwiftUI
 
+enum DisplayType {
+    case popular
+    case leastBiased
+    case balanced
+    case mostBiased
+}
+
 struct TrendingView: View {
-    let item: Articile
+    var item: Articile
     @Environment(\.presentationMode) var presentation
+    @State private var showDetails = false
+    @State private var newsCompanies: [NewsCompany] = []
+    @State var expand = false
+    @State var displaying: DisplayType = .popular
     
     var body: some View {
         
@@ -28,7 +39,7 @@ struct TrendingView: View {
             }) {
                 EmptyView()
             }.padding([.top], -6)
-            Section {
+            Section (header: VStack(alignment: .center, spacing: 0) {
                 VStack(alignment: .leading) {
                     Text(item.title!)
                         .font(.custom("Avenir Bold", size: 35))
@@ -42,10 +53,41 @@ struct TrendingView: View {
                             .font(.custom("Avenir", size: 20))
                     }
                     StatsView(item: item)
+                    HStack {
+                        Text("REPORTS")
+                            .font(.custom("Avenir Bold", size: 20))
+                            .foregroundColor(.blue)
+                        Spacer()
+//                        DropDown()
+                        VStack(alignment: .leading, content: {
+                            
+                            HStack {
+                                Text(displayBiase(displaying: displaying))
+                                    .font(.custom("Avenir Bold", size: 20))
+                                    .foregroundColor(.blue)
+                                Image(systemName: expand ? "chevron.up" : "chevron.down")
+                                    .resizable()
+                                    .frame(width: 15, height: 6)
+                            }.onTapGesture {
+                                self.expand.toggle()
+                            }
+                            
+                            if expand {
+                                makeButton(name: "POPULAR", displaying: .popular)
+                                makeButton(name: "LEAST BIASED", displaying: .leastBiased)
+                                makeButton(name: "BALANCED", displaying: .balanced)
+                                makeButton(name: "MOST BIASED", displaying: .mostBiased)
+                            }
+                        })
+                        .padding(10)
+                        .animation(.spring())
+                    }
                 }
-            }
+            }) {
+                EmptyView()
+            }.padding([.top], -6)
             Section {
-                List(item.newsCompany, id: \.id) { details in
+                List(newsCompanies, id: \.id) { details in
                     NavigationLink(destination: DetailedView(url: details.url!)) {
                         HStack {
                             VStack(alignment: .leading) {
@@ -63,16 +105,136 @@ struct TrendingView: View {
                         }
                     }
                 }
+                    
             }
         }
+        .onAppear(perform: {self.loadData()})
         .navigationBarTitle("STORY", displayMode: .inline)
         .navigationBarItems(leading:
             Button(action: {
                 self.presentation.wrappedValue.dismiss()
             }) {
-                Image(systemName: "chevron.left")
+                Image("chevron-right")
             }
         )
+    }
+    
+    func loadData() {
+//        newsCompanies.removeAll()
+        DispatchQueue.main.async {
+            self.newsCompanies = self.item.newsCompany
+        }
+    }
+    
+    func makeButton(name: String, displaying: DisplayType) -> some View  {
+        
+        return AnyView(Button(action: {
+            self.displaying = displaying
+            self.expand.toggle()
+
+            self.newsCompanies = self.item.newsCompany
+            switch displaying {
+                case .popular:
+                    self.newsCompanies.sort {
+                        $0.reading! < $1.reading!
+                    }
+                case .leastBiased:
+                    self.newsCompanies.sort {
+                        $0.biasedCount! < $1.biasedCount!
+                    }
+                case .balanced:
+                    self.newsCompanies.sort {
+                        $0.reading! < $1.reading!
+                    }
+                case .mostBiased:
+                    self.newsCompanies.sort {
+                        $0.biasedCount! > $1.biasedCount!
+                    }
+            }
+
+//            self.loadData()
+            
+        }) {
+            Text(name).padding()
+                .font(.custom("Avenir Bold", size: 20))
+                .foregroundColor(.blue)
+        })
+    
+    }
+    
+    func displayBiase(displaying: DisplayType) -> String {
+        
+        switch displaying {
+        case .popular:
+            return "POPULAR"
+        case .leastBiased:
+            return "LEAST BIASED"
+        case .balanced:
+            return "BALANCED"
+        case .mostBiased:
+            return "MOST BIASED"
+        }
+    }
+    
+}
+
+struct DropDown : View {
+    @State var expand = false
+    @State var displaying: DisplayType = .popular
+    
+    var body : some View {
+        
+        VStack(alignment: .leading, content: {
+            
+            HStack {
+                Text(displayBiase(displaying: displaying))
+                    .font(.custom("Avenir Bold", size: 20))
+                    .foregroundColor(.blue)
+                Image(systemName: expand ? "chevron.up" : "chevron.down")
+                    .resizable()
+                    .frame(width: 15, height: 6)
+            }.onTapGesture {
+                self.expand.toggle()
+            }
+            
+            if expand {
+                makeButton(name: "POPULAR", displaying: .popular)
+                makeButton(name: "LEAST BIASED", displaying: .leastBiased)
+                makeButton(name: "BALANCED", displaying: .balanced)
+                makeButton(name: "MOST BIASED", displaying: .mostBiased)
+            }
+        })
+        .padding(10)
+        .animation(.spring())
+
+    }
+    
+    func makeButton(name: String, displaying: DisplayType) -> some View  {
+        
+        return AnyView(Button(action: {
+            self.displaying = displaying
+            self.expand.toggle()
+            
+        }) {
+            Text(name).padding()
+                .font(.custom("Avenir Bold", size: 20))
+                .foregroundColor(.blue)
+        })
+    
+    }
+    
+    func displayBiase(displaying: DisplayType) -> String {
+        
+        switch displaying {
+        case .popular:
+            return "POPULAR"
+        case .leastBiased:
+            return "LEAST BIASED"
+        case .balanced:
+            return "BALANCED"
+        case .mostBiased:
+            return "MOST BIASED"
+        }
     }
 }
 

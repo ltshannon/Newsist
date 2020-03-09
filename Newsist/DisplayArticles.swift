@@ -11,7 +11,6 @@ import SDWebImage
 import SDWebImageSwiftUI
 
 struct DisplayArticles: View {
-//    @ObservedObject var postListMV = ArticilesListViewModel()
     @State var results: [Articile] = []
     
     init() {
@@ -85,35 +84,39 @@ struct DisplayArticles: View {
                 var array: [NewsCompany] = []
                 var c: NewsCompany
                 if row[5].count > 0 {
-                    c = NewsCompany.init(reporting: row[5], url: row[6], urlToImage: row[7], reading: row[8], biased: row[9], biasedCount: row[10])
+                    c = NewsCompany.init(reporting: row[6], url: row[7], urlToImage: row[8], reading: Int(row[9])!, biased: row[10], biasedCount: row[11])
                     array.append(c)
                 }
                 if row[11].count > 0 {
-                    c = NewsCompany.init(reporting: row[11], url: row[12], urlToImage: row[13], reading: row[14], biased: row[15], biasedCount: row[16])
+                    c = NewsCompany.init(reporting: row[12], url: row[13], urlToImage: row[14], reading: Int(row[15])!, biased: row[16], biasedCount: row[17])
                     array.append(c)
                 }
                 if row[17].count > 0 {
-                    c = NewsCompany.init(reporting: row[17], url: row[18], urlToImage: row[19], reading: row[20], biased: row[21], biasedCount: row[22])
+                    c = NewsCompany.init(reporting: row[18], url: row[19], urlToImage: row[20], reading: Int(row[21])!, biased: row[22], biasedCount: row[23])
                     array.append(c)
                 }
                 if row[23].count > 0 {
-                    c = NewsCompany.init(reporting: row[23], url: row[24], urlToImage: row[25], reading: row[26], biased: row[27], biasedCount: row[28])
+                    c = NewsCompany.init(reporting: row[24], url: row[25], urlToImage: row[26], reading: Int(row[27])!, biased: row[28], biasedCount: row[29])
                     array.append(c)
                 }
                 if row[29].count > 0 {
-                    c = NewsCompany.init(reporting: row[29], url: row[30], urlToImage: row[31], reading: row[32], biased: row[33], biasedCount: row[34])
+                    c = NewsCompany.init(reporting: row[30], url: row[31], urlToImage: row[32], reading: Int(row[33])!, biased: row[34], biasedCount: row[35])
                     array.append(c)
                 }
-                            
-                let item = Articile.init(topic: "World",
-                                        title: row[0],
-                                        description: row[1],
-                                        userCount: row[2],
-                                        coveredBy: row[3],
-                                        reportType: row[4],
-                                        url: row[6],
-                                        urlToImage: row[7],
-                                        newsCompany: array
+                
+                let sortedArray = array.sorted {
+                    $0.reading! < $1.reading!
+                }
+                
+                let item = Articile.init(topic: row[0],
+                                        title: row[1],
+                                        description: row[2],
+                                        userCount: row[3],
+                                        coveredBy: row[4],
+                                        reportType: row[6],
+                                        url: row[7],
+                                        urlToImage: row[8],
+                                        newsCompany: sortedArray
                                         )
                 self.results.append(item)
         //                    print(row)

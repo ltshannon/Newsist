@@ -22,7 +22,7 @@ struct DetailedView: View {
             Button(action: {
                 self.presentation.wrappedValue.dismiss()
             }) {
-                Image(systemName: "chevron.left")
+                Image("chevron-right")
             }
         )
     }

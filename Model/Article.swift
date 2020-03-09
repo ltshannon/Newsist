@@ -7,8 +7,8 @@
 //
 
 import UIKit
-/*
-struct Articile: Decodable {
+
+struct NewsArticle: Decodable {
     
     let id: UUID?
     let title: String?
@@ -19,17 +19,17 @@ struct Articile: Decodable {
     let topic: String?
     
 }
-*/
-struct NewsCompany: Decodable {
+
+struct NewsCompany: Identifiable {
     let id: UUID?
     let reporting: String?
     let url: String?
     let urlToImage: String?
-    let reading: String?
+    let reading: Int?
     let biased: String?
     let biasedCount: String?
     
-    init (reporting: String, url: String, urlToImage: String, reading: String, biased: String, biasedCount: String) {
+    init (reporting: String, url: String, urlToImage: String, reading: Int, biased: String, biasedCount: String) {
         self.id = UUID()
         self.reporting = reporting
         self.url = url
@@ -40,7 +40,7 @@ struct NewsCompany: Decodable {
     }
 }
 
-struct Articile: Decodable {
+struct Articile: Identifiable {
     let id: UUID?
     let topic: String?
     let title: String?
@@ -50,7 +50,7 @@ struct Articile: Decodable {
     let reportType: String?
     let url: String?
     let urlToImage: String?
-    let newsCompany: [NewsCompany]
+    var newsCompany: [NewsCompany]
     
     init (topic: String, title: String, description: String, userCount: String, coveredBy: String, reportType: String, url: String, urlToImage: String, newsCompany: [NewsCompany]) {
         self.id = UUID()
