@@ -18,7 +18,7 @@ enum DisplayType {
 }
 
 struct TrendingView: View {
-    var item: Articile
+    var item: Article
     @Environment(\.presentationMode) var presentation
     @State private var showDetails = false
     @State private var newsCompanies: [NewsCompany] = []
@@ -31,7 +31,7 @@ struct TrendingView: View {
         return Form {
             Section(header: VStack(alignment: .center, spacing: 0)  {
                 VStack {
-                    Text(item.topic!)
+                    Text(item.category!)
                         .font(.custom("Avenir Bold", size: 20))
                         .foregroundColor(Color.red)
                 }
@@ -96,11 +96,11 @@ struct TrendingView: View {
                                 Text("\(details.reading!) users reading")
                             }
                             Spacer()
-                            Image(details.biased!)
+                            Image(self.getBiase(biase: details.biased!))
                                 .scaledToFit()
                                 .frame(width: 10, height: 10, alignment: .trailing)
                             if details.biasedCount != nil {
-                                    Text("+\(details.biasedCount!)")
+                                Text("+\(details.biasedCount!)")
                             }
                         }
                     }
@@ -165,83 +165,35 @@ struct TrendingView: View {
     func displayBiase(displaying: DisplayType) -> String {
         
         switch displaying {
-        case .popular:
-            return "POPULAR"
-        case .leastBiased:
-            return "LEAST BIASED"
-        case .balanced:
-            return "BALANCED"
-        case .mostBiased:
-            return "MOST BIASED"
+            case .popular:
+                return "POPULAR"
+            case .leastBiased:
+                return "LEAST BIASED"
+            case .balanced:
+                return "BALANCED"
+            case .mostBiased:
+                return "MOST BIASED"
         }
     }
     
-}
-
-struct DropDown : View {
-    @State var expand = false
-    @State var displaying: DisplayType = .popular
-    
-    var body : some View {
+    func getBiase(biase: String) -> String {
         
-        VStack(alignment: .leading, content: {
-            
-            HStack {
-                Text(displayBiase(displaying: displaying))
-                    .font(.custom("Avenir Bold", size: 20))
-                    .foregroundColor(.blue)
-                Image(systemName: expand ? "chevron.up" : "chevron.down")
-                    .resizable()
-                    .frame(width: 15, height: 6)
-            }.onTapGesture {
-                self.expand.toggle()
-            }
-            
-            if expand {
-                makeButton(name: "POPULAR", displaying: .popular)
-                makeButton(name: "LEAST BIASED", displaying: .leastBiased)
-                makeButton(name: "BALANCED", displaying: .balanced)
-                makeButton(name: "MOST BIASED", displaying: .mostBiased)
-            }
-        })
-        .padding(10)
-        .animation(.spring())
-
-    }
-    
-    func makeButton(name: String, displaying: DisplayType) -> some View  {
-        
-        return AnyView(Button(action: {
-            self.displaying = displaying
-            self.expand.toggle()
-            
-        }) {
-            Text(name).padding()
-                .font(.custom("Avenir Bold", size: 20))
-                .foregroundColor(.blue)
-        })
-    
-    }
-    
-    func displayBiase(displaying: DisplayType) -> String {
-        
-        switch displaying {
-        case .popular:
-            return "POPULAR"
-        case .leastBiased:
-            return "LEAST BIASED"
-        case .balanced:
-            return "BALANCED"
-        case .mostBiased:
-            return "MOST BIASED"
+        switch biase {
+            case "LEAST BIASED":
+                return "donkey"
+            case "Most Biased":
+                return "elephant"
+            default:
+                return "head"
         }
     }
+    
 }
 
 struct TrendingView_Previews: PreviewProvider {
     static var previews: some View {
 
-        TrendingView(item: Articile(topic: "test", title: "test", description: "test", userCount: "test", coveredBy: "test", reportType: "test", url: "test", urlToImage: "test", newsCompany: []))
+        TrendingView(item: Article(category: "test", title: "test", description: "test", userCount: 100, coveredBy: "test", reportType: "test", url: "test", urlToImage: "test", newsCompany: []))
 
     }
 }

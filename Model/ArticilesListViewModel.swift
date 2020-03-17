@@ -9,33 +9,33 @@
 import Foundation
 
 class ArticilesListViewModel: ObservableObject {
-    @Published var articiles = [PostViewModel]()
+    @Published var articles = [PostViewModel]()
     
     init() {
         WebService().getPostData { posts in
             if let posts = posts {
-                self.articiles = posts.map(PostViewModel.init)
+                self.articles = posts.map(PostViewModel.init)
             }
         }
     }
     
     func refresh() {
         
-        articiles.removeAll()
+        articles.removeAll()
         
         WebService().getPostData { posts in
             if let posts = posts {
-                self.articiles = posts.map(PostViewModel.init)
+                self.articles = posts.map(PostViewModel.init)
             }
         }
     }
 }
 
 struct PostViewModel {
-    var articile: Articile
+    var article: Article
     
-    init(articile: Articile) {
-        self.articile = articile
+    init(article: Article) {
+        self.article = article
     }
     
     var id: UUID {
@@ -43,36 +43,36 @@ struct PostViewModel {
     }
     
     var title: String {
-        if let title = self.articile.title {
+        if let title = self.article.title {
             return title
         }
         return ""
     }
     
     var description: String {
-        if let description = self.articile.description {
+        if let description = self.article.description {
             return description
         }
         return ""
     }
     
     var url: String {
-        if let url = self.articile.url {
+        if let url = self.article.url {
             return url
         }
         return ""
     }
     
     var urlToImage: String {
-        if let urlToImage = self.articile.urlToImage {
+        if let urlToImage = self.article.urlToImage {
             return urlToImage
         }
         return ""
     }
     
-    var topic: String {
-        if let topic = self.articile.topic {
-            return topic
+    var category: String {
+        if let category = self.article.category {
+            return category
         }
         return ""
     }

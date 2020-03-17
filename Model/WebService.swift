@@ -11,7 +11,7 @@ import SwiftUI
 
 class WebService {
     
-    func getPostData(competion: @escaping ([Articile]?) -> ()) {
+    func getPostData(competion: @escaping ([Article]?) -> ()) {
         
 //        let urlString1 = "https://us-central1-articiles.cloudfunctions.net/articiles"
         let urlString2 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTjtE5wLLpYSOiMS4iTNwPky38EwNPl8QlK33Jgj2JOPnDM7VmyJC-Qg2PxL6VTwHf0dsjCKG-9DD49/pub?output=tsv"

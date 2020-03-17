@@ -8,7 +8,8 @@
 
 import SwiftUI
 
-var articiles: [Articile]?
+var articiles: [Article]?
+var firstTimeFlag = false
 
 struct ContentView: View {
     @State var selectedView = 1

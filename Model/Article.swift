@@ -8,53 +8,65 @@
 
 import UIKit
 
+struct Extractions: Decodable {
+    let extraction: [Extraction]?
+}
+struct Extraction: Decodable {
+    let parsed_value: String?
+    let relevance: String?
+}
+
 struct NewsArticle: Decodable {
-    
-    let id: UUID?
+    let id: String?
+    let source: String?
     let title: String?
     let description: String?
     let url: String?
     let urlToImage: String?
     let content: String?
-    let topic: String?
-    
+    let category: String?
+    let extractions: Extractions?
 }
 
 struct NewsCompany: Identifiable {
-    let id: UUID?
+    let id: String?
+    let description: String?
     let reporting: String?
     let url: String?
     let urlToImage: String?
     let reading: Int?
     let biased: String?
-    let biasedCount: String?
+    let biasedCount: Int?
+    let extractions: [String]?
     
-    init (reporting: String, url: String, urlToImage: String, reading: Int, biased: String, biasedCount: String) {
-        self.id = UUID()
+    init (id: String, description: String, reporting: String, url: String, urlToImage: String, reading: Int, biased: String, biasedCount: Int, extractions: [String]) {
+        self.id = id
+        self.description = description
         self.reporting = reporting
         self.url = url
         self.urlToImage = urlToImage
         self.reading = reading
         self.biased = biased
         self.biasedCount = biasedCount
+        self.extractions = extractions
     }
 }
 
-struct Articile: Identifiable {
-    let id: UUID?
-    let topic: String?
+struct Article: Identifiable {
+    let id: UUID
+    let category: String?
     let title: String?
     let description: String?
-    let userCount: String?
+    let userCount: Int?
     let coveredBy: String?
     let reportType: String?
     let url: String?
     let urlToImage: String?
     var newsCompany: [NewsCompany]
     
-    init (topic: String, title: String, description: String, userCount: String, coveredBy: String, reportType: String, url: String, urlToImage: String, newsCompany: [NewsCompany]) {
+    init (category: String, title: String, description: String, userCount: Int, coveredBy: String, reportType: String, url: String, urlToImage: String, newsCompany: [NewsCompany]) {
         self.id = UUID()
-        self.topic = "U.S. POLITICS"
+        self.category = category
         self.title = title
         self.description = description
         self.userCount = userCount

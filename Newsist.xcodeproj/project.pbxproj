@@ -22,6 +22,7 @@
 		468E2269240CA42700ABFF37 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468E2268240CA42700ABFF37 /* Article.swift */; };
 		468E226B240CA45100ABFF37 /* ArticilesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468E226A240CA45100ABFF37 /* ArticilesListViewModel.swift */; };
 		468E226D240CA47800ABFF37 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468E226C240CA47800ABFF37 /* WebService.swift */; };
+		46AD9CF9241863FC0050C677 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AD9CF8241863FC0050C677 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		468E2268240CA42700ABFF37 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		468E226A240CA45100ABFF37 /* ArticilesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticilesListViewModel.swift; sourceTree = "<group>"; };
 		468E226C240CA47800ABFF37 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
+		46AD9CF8241863FC0050C677 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				464FFA67240D7A7200D2AEB7 /* DetailedView.swift */,
 				464FFA6B240F0BAB00D2AEB7 /* TrendingView.swift */,
 				464FFA6D240F3CBC00D2AEB7 /* StatsView.swift */,
+				46AD9CF8241863FC0050C677 /* WebView.swift */,
 				464FFA69240D91AA00D2AEB7 /* SwiftUIWebView.swift */,
 				468E2259240CA2AA00ABFF37 /* Assets.xcassets */,
 				468E225E240CA2AA00ABFF37 /* LaunchScreen.storyboard */,
@@ -195,6 +198,7 @@
 				468E2254240CA2A900ABFF37 /* AppDelegate.swift in Sources */,
 				468E2256240CA2A900ABFF37 /* SceneDelegate.swift in Sources */,
 				464FFA66240D79EB00D2AEB7 /* DisplayArticles.swift in Sources */,
+				46AD9CF9241863FC0050C677 /* WebView.swift in Sources */,
 				468E226B240CA45100ABFF37 /* ArticilesListViewModel.swift in Sources */,
 				468E2258240CA2A900ABFF37 /* ContentView.swift in Sources */,
 			);
@@ -333,7 +337,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Newsist/Preview Content\"";
 				DEVELOPMENT_TEAM = DDDAQ32TPA;
 				ENABLE_PREVIEWS = YES;
@@ -354,7 +358,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Newsist/Preview Content\"";
 				DEVELOPMENT_TEAM = DDDAQ32TPA;
 				ENABLE_PREVIEWS = YES;

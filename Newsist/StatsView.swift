@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct StatsView: View {
-    let item: Articile
+    let item: Article
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -37,6 +37,6 @@ struct StatsView: View {
 
 struct StatsView_Previews: PreviewProvider {
     static var previews: some View {
-        StatsView(item: Articile(topic: "test", title: "test", description: "test", userCount: "test", coveredBy: "test", reportType: "test", url: "test", urlToImage: "test", newsCompany: []))
+        StatsView(item: Article(category: "test", title: "test", description: "test", userCount: 100, coveredBy: "test", reportType: "test", url: "test", urlToImage: "test", newsCompany: []))
     }
 }

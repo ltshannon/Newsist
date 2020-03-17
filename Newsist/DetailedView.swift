@@ -10,13 +10,14 @@ import SwiftUI
 
 struct DetailedView: View {
     let url: String
-    @ObservedObject var indicator = changeIndicator()
+//    @ObservedObject var indicator = changeIndicator()
     @Environment(\.presentationMode) var presentation
         
     var body: some View {
         VStack {
 //            ActivityIndicator(indicator: indicator)
-            SwiftUIWebView(url: url, indicator: indicator)
+//            SwiftUIWebView(url: url, indicator: indicator)
+            WebView(request: url)
         }
         .navigationBarItems(leading:
             Button(action: {
