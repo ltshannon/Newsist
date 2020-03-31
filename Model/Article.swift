@@ -8,6 +8,28 @@
 
 import UIKit
 
+struct UserCount: Decodable {
+    let userCount: Int?
+}
+
+struct Sources: Decodable {
+    let biase: Int?
+    let category: String?
+    let description: String?
+    let name: String?
+    let sourceId: String?
+    let url: String?
+    
+    init(biase: Int, category: String, description: String, name: String, sourceId: String, url: String) {
+        self.biase = biase
+        self.category = category
+        self.description = description
+        self.name = name
+        self.sourceId = sourceId
+        self.url = url
+    }
+}
+
 struct Extractions: Decodable {
     let extraction: [Extraction]?
 }
@@ -16,9 +38,13 @@ struct Extraction: Decodable {
     let relevance: String?
 }
 
+// This is the data format gotten from NewsAPI
 struct NewsArticle: Decodable {
     let id: String?
+    let userCount: Int?
     let source: String?
+    let sourceId: String?
+    let publishedAt: String?
     let title: String?
     let description: String?
     let url: String?
@@ -29,18 +55,22 @@ struct NewsArticle: Decodable {
 }
 
 struct NewsCompany: Identifiable {
-    let id: String?
-    let description: String?
-    let reporting: String?
-    let url: String?
-    let urlToImage: String?
-    let reading: Int?
-    let biased: String?
-    let biasedCount: Int?
-    let extractions: [String]?
+    var id: String?
+    var source: String?
+    var sourceId: String?
+    var description: String?
+    var reporting: String?
+    var url: String?
+    var urlToImage: String?
+    var reading: Int?
+    var biased: String?
+    var biasedCount: Int?
+    var extractions: [String]?
     
-    init (id: String, description: String, reporting: String, url: String, urlToImage: String, reading: Int, biased: String, biasedCount: Int, extractions: [String]) {
+    init (id: String, source: String, sourceId: String, description: String, reporting: String, url: String, urlToImage: String, reading: Int, biased: String, biasedCount: Int, extractions: [String]) {
         self.id = id
+        self.source = source
+        self.sourceId = sourceId
         self.description = description
         self.reporting = reporting
         self.url = url
@@ -50,6 +80,11 @@ struct NewsCompany: Identifiable {
         self.biasedCount = biasedCount
         self.extractions = extractions
     }
+    
+    mutating func updateCount(count: Int) {
+        reading = count
+    }
+    
 }
 
 struct Article: Identifiable {
@@ -77,3 +112,4 @@ struct Article: Identifiable {
         self.newsCompany = newsCompany
     }
 }
+

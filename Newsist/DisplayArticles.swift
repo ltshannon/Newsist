@@ -12,6 +12,8 @@ import SDWebImageSwiftUI
 
 struct DisplayArticles: View {
     @State var results: [Article] = []
+    @State var sources: [Sources] = []
+    @State var firstTimeFlag = false
     
     init() {
         UINavigationBar.appearance().titleTextAttributes = [.font : UIFont(name: "Georgia", size: 30)!]
@@ -32,19 +34,39 @@ struct DisplayArticles: View {
                     VStack(alignment: .leading) {
                         Text(post.category!)
                             .font(.custom("Avenir Bold", size: 15))
-                            .foregroundColor(getTopicColor(topic: post.category!))
+                            .foregroundColor(getTopicColor(topic: post.category != nil ? post.category! : ""))
                         Text(post.title!)
                             .font(.custom("Avenir Bold", size: 35))
                         HStack {
-                            WebImage(url: URL(string:post.urlToImage!))
+                            WebImage(url: URL(string: post.urlToImage!))
                                 .resizable()
                                 .placeholder(Image(systemName: "photo"))
                                 .scaledToFit()
                                 .frame(width: 150, height: 150, alignment: .leading)
-                            Text(post.description!)
+                            Text(post.description != nil ? post.description! : "")
                                 .font(.custom("Avenir", size: 20))
                         }
-                        StatsView(item: post)
+//                        StatsView(item: post, userCount: self.userCount)
+                        VStack(alignment: .leading) {
+                            HStack(alignment: .top) {
+                                Image("fire")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                Text("\(post.userCount!) users reading")
+                            }
+                            HStack {
+                                Image("world")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                Text("Covered by \(post.coveredBy!)")
+                            }
+                            HStack {
+                                Image("head")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                Text("Reporting is \(post.reportType!)")
+                            }
+                        }
                     }
                 }
             }
@@ -70,132 +92,195 @@ struct DisplayArticles: View {
     func loadArticleData() {
         
         results.removeAll()
+        sources.removeAll()
         
-        var urlString1 = "https://us-central1-articiles.cloudfunctions.net/articiles"
-//        let urlString2 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTjtE5wLLpYSOiMS4iTNwPky38EwNPl8QlK33Jgj2JOPnDM7VmyJC-Qg2PxL6VTwHf0dsjCKG-9DD49/pub?output=tsv"
-                
-        guard let url = URL(string: urlString1) else {
-            fatalError("Invalid URL")
-        }
-                
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                return
+        let urlString1 = "https://us-central1-deletearticles.cloudfunctions.net/GetNewsSource"
+         
+         guard let url1 = URL(string: urlString1) else {
+             fatalError("Invalid URL")
+         }
+         
+         URLSession.shared.dataTask(with: url1) { data, response, error in
+             guard let data = data, error == nil else {
+                 return
+             }
+            
+            if let sourceData = try? JSONDecoder().decode([Sources].self, from: data) {
+                self.processSources(sourceData: sourceData)
             }
-            
-            let articles = try? JSONDecoder().decode([NewsArticle].self, from: data)
-            
-            if let arrayOfArticles = articles {
-                print("Number of acticles: \(arrayOfArticles.count)")
-                var healthArray: [NewsCompany] = []
-                var businessArray: [NewsCompany] = []
-                var healthSources = Set<String>()
-                var businessSources = Set<String>()
-                var array: [NewsCompany] = []
-                var c: NewsCompany
-                var healthExtractions = [String:Int]()
-                var businessExtractions = [String:Int]()
 
-                for art in arrayOfArticles {
-                    let description = art.description != nil ? art.description! : ""
-                    let source = art.source != nil ? art.source! : ""
-                    let url = art.url != nil ? art.url! : ""
-                    let urlToImage = art.urlToImage != nil ? art.urlToImage! : ""
-//                let description = art.description != nil ? art.description! : ""
-
-                    var extractArray: [String] = []
-                    if let extractions = art.extractions {
-                        if let extraction = extractions.extraction {
-                            for  extraction in extraction {
-                                if let value = extraction.parsed_value {
-                                    switch art.category {
-                                        case "Health":
-                                            self.createHashExtraction(extractions: value, hash: &healthExtractions)
-                                        case "Business":
-                                            self.createHashExtraction(extractions: value, hash: &businessExtractions)
-                                        default:
-                                            print("createHashExtraction not called")
-                                    }
-                                    extractArray.append(value)
-                                }
-                            }
-                        }
-                    }
-
-                    c = NewsCompany.init(id: art.id!, description: description, reporting: source, url: url, urlToImage: urlToImage, reading: Int.random(in: 1..<500), biased: getBiase(), biasedCount: Int.random(in: 1..<500), extractions: extractArray)
-
-                    switch art.category {
-                        case "Health":
-                            healthArray.append(c)
-                            if source.count > 0 {
-                                healthSources.insert(source)
-                            }
-//                            healthExtractions
-                        case "Business":
-                            businessArray.append(c)
-                            if source.count > 0 {
-                                businessSources.insert(source)
-                            }
-                        default:
-                            array.append(c)
-                    }
-                }
-            
-                if healthSources.count > 0 {
-print("Health extractions: \(healthExtractions)")
-                    var newArray: [NewsCompany] = []
-                    
-                    let topic = self.findTopic(array: healthArray, extractions: healthExtractions, newArray: &newArray)
-                    print("Number of health acticles: \(newArray.count)")
-                    let sourceStr = "\(healthSources.removeFirst()), + \(healthSources.count)"
+            let urlString2 = "https://us-central1-articiles.cloudfunctions.net/articiles"
                 
-                    if newArray.count > 0 {
-                        self.buildArticleArray(category: "Health",
-                                               title: topic,
-                                               description: newArray[0].description ?? "",
-                                               source: sourceStr,
-                                               url: newArray[0].url ?? "",
-                                               urlToImage:  newArray[0].urlToImage ?? "",
-                                               array: newArray)
-                    }
-                }
-            
-                if businessSources.count > 0 {
-print("Business extractions: \(businessExtractions)")
-                    var newArray: [NewsCompany] = []
-                    
-                    let topic = self.findTopic(array: businessArray, extractions: businessExtractions, newArray: &newArray)
-                    print("Number of business acticles: \(newArray.count)")
-                    let sourceStr = "\(businessSources.removeFirst()), + \(businessSources.count)"
-                    if newArray.count > 0 {
-                        self.buildArticleArray(category: "Business",
-                                               title: topic,
-                                               description: newArray[0].description ?? "",
-                                               source: sourceStr,
-                                               url: newArray[0].url ?? "",
-                                               urlToImage: newArray[0].urlToImage ?? "",
-                                               array: newArray)
-                    }
-                }
-            }
-            
-            urlString1 = "https://us-central1-deletearticles.cloudfunctions.net/GetNewsSource"
-            
-            guard let url2 = URL(string: urlString1) else {
+            guard let url2 = URL(string: urlString2) else {
                 fatalError("Invalid URL")
             }
-            
+                
             URLSession.shared.dataTask(with: url2) { data, response, error in
                 guard let data = data, error == nil else {
                     return
                 }
-                
-                print(data)
-                
+            
+                if let articles = try? JSONDecoder().decode([NewsArticle].self, from: data) {
+                    self.processArticles(articles: articles)
+                }
+            
             }.resume()
             
-            
         }.resume()
+    }
+    
+    func processSources(sourceData: [Sources]) {
+        
+        for source in sourceData {
+            let s = Sources.init(biase: source.biase != nil ? source.biase! : 99,
+                                 category: source.category != nil ? source.category! : "",
+                                 description: source.description != nil ? source.description! : "",
+                                 name: source.name != nil ? source.name! : "",
+                                 sourceId: source.sourceId != nil ? source.sourceId! : "",
+                                 url: source.url != nil ? source.url! : "")
+            sources.append(s)
+        }
+    }
+    
+    func processArticles(articles: [NewsArticle]) {
+        
+//("Number of acticles: \(articles.count)")
+        var healthArray: [NewsCompany] = []
+        var businessArray: [NewsCompany] = []
+        var healthSources = Set<String>()
+        var businessSources = Set<String>()
+        var array: [NewsCompany] = []
+        var c: NewsCompany
+        var healthExtractions = [String:Int]()
+        var businessExtractions = [String:Int]()
+        var userCountHealth = 0
+        var userCountBusiness = 0
+
+        for art in articles {
+            let source = art.source != nil ? art.source! : ""
+
+            var extractArray: [String] = []
+            if let extraction = art.extractions?.extraction {
+                for  extraction in extraction {
+                    if let str = extraction.relevance {
+                        let relevance = (str as NSString).floatValue
+                        if relevance > 0.8 {
+                            if let value = extraction.parsed_value {
+                                switch art.category {
+                                    case "Health":
+                                        self.createHashExtraction(extractions: value, hash: &healthExtractions)
+                                    case "Business":
+                                        self.createHashExtraction(extractions: value, hash: &businessExtractions)
+                                    default:
+                                        print("createHashExtraction not called")
+                                }
+                                extractArray.append(value)
+                            }
+                        }
+                    }
+                }
+            }
+
+            c = NewsCompany.init(id: art.id != nil ? art.id! : "",
+                                 source: art.source != nil ? art.source! : "",
+                                 sourceId: art.sourceId != nil ? art.sourceId! : "",
+                                 description: art.description != nil ? art.description! : "",
+                                 reporting: art.source != nil ? art.source! : "",
+                                 url: art.url != nil ? art.url! : "",
+                                 urlToImage: art.urlToImage != nil ? art.urlToImage! : "",
+                                 reading: art.userCount != nil ? art.userCount! : 0,
+                                 biased: getBiase(sourceId: art.sourceId != nil ? art.sourceId! : ""),
+                                 biasedCount: Int.random(in: 1..<500),
+                                 extractions: extractArray)
+
+            var count = 0
+            if let temp = art.userCount {
+                count = temp
+            }
+            switch art.category {
+                case "Health":
+                    healthArray.append(c)
+                    if source.count > 0 {
+                        healthSources.insert(source)
+                    }
+                    userCountHealth += count
+                case "Business":
+                    businessArray.append(c)
+                    if source.count > 0 {
+                        businessSources.insert(source)
+                    }
+                    userCountBusiness += count
+                default:
+                    array.append(c)
+            }
+        }
+                    
+        if healthSources.count > 0 {
+//print("Health extractions: \(healthExtractions)")
+            var newArray: [NewsCompany] = []
+                            
+            let topic = self.findTopic(array: healthArray, extractions: healthExtractions, newArray: &newArray)
+//print("Number of health acticles: \(newArray.count)")
+            let sourceStr = "\(healthSources.removeFirst()), + \(healthSources.count)"
+                        
+            if newArray.count > 0 {
+                self.buildArticleArray(category: "Health",
+                                       title: topic,
+                                       description: newArray[0].description ?? "",
+                                       source: sourceStr,
+                                       url: newArray[0].url ?? "",
+                                       urlToImage:  newArray[0].urlToImage ?? "",
+                                       sourceId: newArray[0].sourceId != nil ? newArray[0].sourceId! : "",
+                                       userCount: userCountHealth,
+                                       array: newArray)
+            }
+        }
+                    
+        if businessSources.count > 0 {
+//print("Business extractions: \(businessExtractions)")
+            var newArray: [NewsCompany] = []
+                            
+            let topic = self.findTopic(array: businessArray, extractions: businessExtractions, newArray: &newArray)
+//print("Number of business acticles: \(newArray.count)")
+            let sourceStr = "\(businessSources.removeFirst()), + \(businessSources.count)"
+            if newArray.count > 0 {
+                self.buildArticleArray(category: "Business",
+                                       title: topic,
+                                       description: newArray[0].description ?? "",
+                                       source: sourceStr,
+                                       url: newArray[0].url ?? "",
+                                       urlToImage: newArray[0].urlToImage ?? "",
+                                       sourceId: newArray[0].sourceId != nil ? newArray[0].sourceId! : "",
+                                       userCount: userCountBusiness,
+                                       array: newArray)
+            }
+        }
+    }
+    
+    func getBiase(sourceId: String) -> String {
+        
+        for item in sources {
+            if let id = item.sourceId {
+                if id == sourceId {
+                    if let biase = item.biase {
+                        switch biase {
+                        case 1:
+                            return "Least Biased"
+                        case 2:
+                            return "Balanced"
+                        case 3:
+                            return "Most Biased"
+                        default:
+                            return "N/A"
+                        }
+                    }
+                    break
+                }
+            }
+        }
+        
+        return ""
+        
     }
     
     func createHashExtraction(extractions: String, hash: inout [String:Int]) {
@@ -218,7 +303,7 @@ print("Business extractions: \(businessExtractions)")
         
         var returnValue: [String] = []
         let listExtract = extractions.sorted(by: { $0.value > $1.value })
-        print(listExtract)
+//print(listExtract)
         
         for item in listExtract {
             if item.value >= array.count/3 {
@@ -229,7 +314,7 @@ print("Business extractions: \(businessExtractions)")
             }
         }
         
-        print(returnValue)
+//print(returnValue)
         
         for art in array {
             if let arrayExtractions = art.extractions {
@@ -283,7 +368,7 @@ print("Business extractions: \(businessExtractions)")
 
     }
 
-    func buildArticleArray(category: String, title: String, description: String, source: String, url: String, urlToImage: String, array: [NewsCompany]) {
+    func buildArticleArray(category: String, title: String, description: String, source: String, url: String, urlToImage: String, sourceId: String, userCount: Int,  array: [NewsCompany]) {
         
         let sortedArray = array.sorted {
             $0.reading! < $1.reading!
@@ -292,9 +377,9 @@ print("Business extractions: \(businessExtractions)")
         let item = Article.init(category: category,
                                 title: title,
                                 description: description,
-                                userCount: Int.random(in: 1..<500),
+                                userCount: userCount,
                                 coveredBy: source,
-                                reportType: getBiase(),
+                                reportType: getBiase(sourceId: sourceId),
                                 url: url,
                                 urlToImage: urlToImage,
                                 newsCompany: sortedArray
@@ -302,22 +387,6 @@ print("Business extractions: \(businessExtractions)")
         self.results.append(item)
     }
     
-}
-
-func getBiase()-> String {
-    
-    let randomInt = Int.random(in: 1..<4)
-    
-    switch randomInt {
-        case 1:
-            return "Least Biased"
-        case 2:
-            return "Balanced"
-        case 3:
-            return "Most Biased"
-        default:
-            return ""
-    }
 }
 
 func getTopicColor(topic: String)-> Color {

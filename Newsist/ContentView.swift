@@ -8,20 +8,21 @@
 
 import SwiftUI
 
-var articiles: [Article]?
-var firstTimeFlag = false
-
 struct ContentView: View {
-    @State var selectedView = 1
+    @State var selectedView = 0
 //    @ObservedObject public var postListMV = ArticilesListViewModel()
        
     var body: some View {
 
         TabView(selection: $selectedView) {
-            Text("My Topics Coming soon")
+//            Text("My Topics Coming soon")
+//            NavigationView {
+//                CoronaVirusView()
+                BNOView()
+//            }
                 .tabItem {
                     Image("newspaper")
-                    Text("My Topics")
+                    Text("Covid-19")
                 }.tag(0)
             NavigationView {
                 DisplayArticles()

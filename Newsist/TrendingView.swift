@@ -10,6 +10,38 @@ import SwiftUI
 import SDWebImage
 import SDWebImageSwiftUI
 
+class NewsCompanies: ObservableObject {
+    @Published var newsCompanies: [NewsCompany] = []
+    @Published var usersReading: Int = 0
+    
+    func initNewsCompanies(companies: [NewsCompany]) {
+        newsCompanies = companies
+        
+        var count: Int = 0
+        
+        for c in companies {
+            if let value = c.reading {
+                count += value
+            }
+        }
+        usersReading = count
+        
+    }
+    
+    func incrementUserCount(userCountId: String, count: Int) {
+        var total: Int = 0
+        for i in 0..<newsCompanies.count {
+            if newsCompanies[i].id == userCountId {
+                newsCompanies[i].reading = count
+            }
+            if let value = newsCompanies[i].reading {
+                total += value
+            }
+        }
+        usersReading = total
+    }
+}
+
 enum DisplayType {
     case popular
     case leastBiased
@@ -19,11 +51,13 @@ enum DisplayType {
 
 struct TrendingView: View {
     var item: Article
+    
     @Environment(\.presentationMode) var presentation
     @State private var showDetails = false
-    @State private var newsCompanies: [NewsCompany] = []
     @State var expand = false
     @State var displaying: DisplayType = .popular
+    @ObservedObject var companies = NewsCompanies()
+    @State var firstTimeFlag = false
     
     var body: some View {
         
@@ -52,7 +86,27 @@ struct TrendingView: View {
                         Text(item.description!)
                             .font(.custom("Avenir", size: 20))
                     }
-                    StatsView(item: item)
+
+                    VStack(alignment: .leading) {
+                        HStack(alignment: .top) {
+                            Image("fire")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                            Text("\(companies.usersReading) users reading")
+                        }
+                        HStack {
+                            Image("world")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                            Text("Covered by \(item.coveredBy!)")
+                        }
+                        HStack {
+                            Image("head")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                            Text("Reporting is \(item.reportType!)")
+                        }
+                    }
                     HStack {
                         Text("REPORTS")
                             .font(.custom("Avenir Bold", size: 20))
@@ -87,8 +141,8 @@ struct TrendingView: View {
                 EmptyView()
             }.padding([.top], -6)
             Section {
-                List(newsCompanies, id: \.id) { details in
-                    NavigationLink(destination: DetailedView(url: details.url!)) {
+                List(self.companies.newsCompanies, id: \.id) { details in
+                    NavigationLink(destination: DetailedView(url: details.url != nil ? details.url! : "",  userCountId: details.id!, companies: self.companies)) {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(details.reporting!)
@@ -105,7 +159,6 @@ struct TrendingView: View {
                         }
                     }
                 }
-                    
             }
         }
         .onAppear(perform: {self.loadData()})
@@ -120,9 +173,12 @@ struct TrendingView: View {
     }
     
     func loadData() {
-//        newsCompanies.removeAll()
         DispatchQueue.main.async {
-            self.newsCompanies = self.item.newsCompany
+//            self.companies.newsCompanies = self.item.newsCompany
+            if !self.firstTimeFlag {
+                self.companies.initNewsCompanies(companies: self.item.newsCompany)
+                self.firstTimeFlag = true
+            }
         }
     }
     
@@ -132,22 +188,22 @@ struct TrendingView: View {
             self.displaying = displaying
             self.expand.toggle()
 
-            self.newsCompanies = self.item.newsCompany
+//            self.companies.newsCompanies = self.item.newsCompany
             switch displaying {
                 case .popular:
-                    self.newsCompanies.sort {
-                        $0.reading! < $1.reading!
+                    self.companies.newsCompanies.sort {
+                        $0.reading! > $1.reading!
                     }
                 case .leastBiased:
-                    self.newsCompanies.sort {
+                    self.companies.newsCompanies.sort {
                         $0.biasedCount! < $1.biasedCount!
                     }
                 case .balanced:
-                    self.newsCompanies.sort {
+                    self.companies.newsCompanies.sort {
                         $0.reading! < $1.reading!
                     }
                 case .mostBiased:
-                    self.newsCompanies.sort {
+                    self.companies.newsCompanies.sort {
                         $0.biasedCount! > $1.biasedCount!
                     }
             }

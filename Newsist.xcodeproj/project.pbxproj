@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		460897D724229967007FF4C0 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 460897D624229967007FF4C0 /* CloudKit.framework */; };
 		464FFA64240CC5DF00D2AEB7 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 464FFA63240CC5DF00D2AEB7 /* SDWebImageSwiftUI */; };
 		464FFA66240D79EB00D2AEB7 /* DisplayArticles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464FFA65240D79EB00D2AEB7 /* DisplayArticles.swift */; };
 		464FFA68240D7A7200D2AEB7 /* DetailedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464FFA67240D7A7200D2AEB7 /* DetailedView.swift */; };
 		464FFA6A240D91AA00D2AEB7 /* SwiftUIWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464FFA69240D91AA00D2AEB7 /* SwiftUIWebView.swift */; };
 		464FFA6C240F0BAB00D2AEB7 /* TrendingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464FFA6B240F0BAB00D2AEB7 /* TrendingView.swift */; };
-		464FFA6E240F3CBC00D2AEB7 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464FFA6D240F3CBC00D2AEB7 /* StatsView.swift */; };
 		468E2254240CA2A900ABFF37 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468E2253240CA2A900ABFF37 /* AppDelegate.swift */; };
 		468E2256240CA2A900ABFF37 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468E2255240CA2A900ABFF37 /* SceneDelegate.swift */; };
 		468E2258240CA2A900ABFF37 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468E2257240CA2A900ABFF37 /* ContentView.swift */; };
@@ -20,17 +20,21 @@
 		468E225D240CA2AA00ABFF37 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 468E225C240CA2AA00ABFF37 /* Preview Assets.xcassets */; };
 		468E2260240CA2AA00ABFF37 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 468E225E240CA2AA00ABFF37 /* LaunchScreen.storyboard */; };
 		468E2269240CA42700ABFF37 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468E2268240CA42700ABFF37 /* Article.swift */; };
-		468E226B240CA45100ABFF37 /* ArticilesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468E226A240CA45100ABFF37 /* ArticilesListViewModel.swift */; };
-		468E226D240CA47800ABFF37 /* WebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468E226C240CA47800ABFF37 /* WebService.swift */; };
+		4692C6012429716200E6D131 /* CoronaVirusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692C6002429716200E6D131 /* CoronaVirusView.swift */; };
+		4692C6032429A5D200E6D131 /* CovidCountries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692C6022429A5D200E6D131 /* CovidCountries.swift */; };
+		4692C609242D873200E6D131 /* BNOViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692C608242D873200E6D131 /* BNOViewModel.swift */; };
+		4692C60B242D8CC100E6D131 /* BNOView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692C60A242D8CC100E6D131 /* BNOView.swift */; };
+		4692C60E242DA1EF00E6D131 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 4692C60D242DA1EF00E6D131 /* SwiftSoup */; };
 		46AD9CF9241863FC0050C677 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AD9CF8241863FC0050C677 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		460897D424229955007FF4C0 /* Newsist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Newsist.entitlements; sourceTree = "<group>"; };
+		460897D624229967007FF4C0 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		464FFA65240D79EB00D2AEB7 /* DisplayArticles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayArticles.swift; sourceTree = "<group>"; };
 		464FFA67240D7A7200D2AEB7 /* DetailedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedView.swift; sourceTree = "<group>"; };
 		464FFA69240D91AA00D2AEB7 /* SwiftUIWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIWebView.swift; sourceTree = "<group>"; };
 		464FFA6B240F0BAB00D2AEB7 /* TrendingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingView.swift; sourceTree = "<group>"; };
-		464FFA6D240F3CBC00D2AEB7 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		468E2250240CA2A900ABFF37 /* Newsist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Newsist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		468E2253240CA2A900ABFF37 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		468E2255240CA2A900ABFF37 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -40,8 +44,10 @@
 		468E225F240CA2AA00ABFF37 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		468E2261240CA2AA00ABFF37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		468E2268240CA42700ABFF37 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
-		468E226A240CA45100ABFF37 /* ArticilesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticilesListViewModel.swift; sourceTree = "<group>"; };
-		468E226C240CA47800ABFF37 /* WebService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebService.swift; sourceTree = "<group>"; };
+		4692C6002429716200E6D131 /* CoronaVirusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoronaVirusView.swift; sourceTree = "<group>"; };
+		4692C6022429A5D200E6D131 /* CovidCountries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidCountries.swift; sourceTree = "<group>"; };
+		4692C608242D873200E6D131 /* BNOViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNOViewModel.swift; sourceTree = "<group>"; };
+		4692C60A242D8CC100E6D131 /* BNOView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNOView.swift; sourceTree = "<group>"; };
 		46AD9CF8241863FC0050C677 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -51,18 +57,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				464FFA64240CC5DF00D2AEB7 /* SDWebImageSwiftUI in Frameworks */,
+				460897D724229967007FF4C0 /* CloudKit.framework in Frameworks */,
+				4692C60E242DA1EF00E6D131 /* SwiftSoup in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		460897D524229967007FF4C0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				460897D624229967007FF4C0 /* CloudKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		468E2247240CA2A900ABFF37 = {
 			isa = PBXGroup;
 			children = (
 				468E2267240CA3DD00ABFF37 /* Model */,
 				468E2252240CA2A900ABFF37 /* Newsist */,
 				468E2251240CA2A900ABFF37 /* Products */,
+				460897D524229967007FF4C0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,15 +94,18 @@
 		468E2252240CA2A900ABFF37 /* Newsist */ = {
 			isa = PBXGroup;
 			children = (
+				460897D424229955007FF4C0 /* Newsist.entitlements */,
 				468E2253240CA2A900ABFF37 /* AppDelegate.swift */,
 				468E2255240CA2A900ABFF37 /* SceneDelegate.swift */,
 				468E2257240CA2A900ABFF37 /* ContentView.swift */,
 				464FFA65240D79EB00D2AEB7 /* DisplayArticles.swift */,
 				464FFA67240D7A7200D2AEB7 /* DetailedView.swift */,
 				464FFA6B240F0BAB00D2AEB7 /* TrendingView.swift */,
-				464FFA6D240F3CBC00D2AEB7 /* StatsView.swift */,
 				46AD9CF8241863FC0050C677 /* WebView.swift */,
 				464FFA69240D91AA00D2AEB7 /* SwiftUIWebView.swift */,
+				4692C6002429716200E6D131 /* CoronaVirusView.swift */,
+				4692C608242D873200E6D131 /* BNOViewModel.swift */,
+				4692C60A242D8CC100E6D131 /* BNOView.swift */,
 				468E2259240CA2AA00ABFF37 /* Assets.xcassets */,
 				468E225E240CA2AA00ABFF37 /* LaunchScreen.storyboard */,
 				468E2261240CA2AA00ABFF37 /* Info.plist */,
@@ -106,8 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				468E2268240CA42700ABFF37 /* Article.swift */,
-				468E226A240CA45100ABFF37 /* ArticilesListViewModel.swift */,
-				468E226C240CA47800ABFF37 /* WebService.swift */,
+				4692C6022429A5D200E6D131 /* CovidCountries.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -130,6 +149,7 @@
 			name = Newsist;
 			packageProductDependencies = (
 				464FFA63240CC5DF00D2AEB7 /* SDWebImageSwiftUI */,
+				4692C60D242DA1EF00E6D131 /* SwiftSoup */,
 			);
 			productName = Newsist;
 			productReference = 468E2250240CA2A900ABFF37 /* Newsist.app */;
@@ -161,6 +181,7 @@
 			mainGroup = 468E2247240CA2A900ABFF37;
 			packageReferences = (
 				464FFA62240CC5DF00D2AEB7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				4692C60C242DA1EF00E6D131 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
 			);
 			productRefGroup = 468E2251240CA2A900ABFF37 /* Products */;
 			projectDirPath = "";
@@ -189,17 +210,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				464FFA6E240F3CBC00D2AEB7 /* StatsView.swift in Sources */,
 				464FFA68240D7A7200D2AEB7 /* DetailedView.swift in Sources */,
 				464FFA6A240D91AA00D2AEB7 /* SwiftUIWebView.swift in Sources */,
-				468E226D240CA47800ABFF37 /* WebService.swift in Sources */,
 				464FFA6C240F0BAB00D2AEB7 /* TrendingView.swift in Sources */,
 				468E2269240CA42700ABFF37 /* Article.swift in Sources */,
+				4692C609242D873200E6D131 /* BNOViewModel.swift in Sources */,
 				468E2254240CA2A900ABFF37 /* AppDelegate.swift in Sources */,
 				468E2256240CA2A900ABFF37 /* SceneDelegate.swift in Sources */,
+				4692C6032429A5D200E6D131 /* CovidCountries.swift in Sources */,
 				464FFA66240D79EB00D2AEB7 /* DisplayArticles.swift in Sources */,
 				46AD9CF9241863FC0050C677 /* WebView.swift in Sources */,
-				468E226B240CA45100ABFF37 /* ArticilesListViewModel.swift in Sources */,
+				4692C60B242D8CC100E6D131 /* BNOView.swift in Sources */,
+				4692C6012429716200E6D131 /* CoronaVirusView.swift in Sources */,
 				468E2258240CA2A900ABFF37 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,8 +358,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Newsist/Newsist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"Newsist/Preview Content\"";
 				DEVELOPMENT_TEAM = DDDAQ32TPA;
 				ENABLE_PREVIEWS = YES;
@@ -357,8 +380,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Newsist/Newsist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"Newsist/Preview Content\"";
 				DEVELOPMENT_TEAM = DDDAQ32TPA;
 				ENABLE_PREVIEWS = YES;
@@ -406,6 +430,14 @@
 				minimumVersion = 0.10.3;
 			};
 		};
+		4692C60C242DA1EF00E6D131 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -413,6 +445,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 464FFA62240CC5DF00D2AEB7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		4692C60D242DA1EF00E6D131 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4692C60C242DA1EF00E6D131 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
