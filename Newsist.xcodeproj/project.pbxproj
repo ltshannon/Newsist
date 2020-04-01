@@ -25,6 +25,7 @@
 		4692C609242D873200E6D131 /* BNOViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692C608242D873200E6D131 /* BNOViewModel.swift */; };
 		4692C60B242D8CC100E6D131 /* BNOView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692C60A242D8CC100E6D131 /* BNOView.swift */; };
 		4692C60E242DA1EF00E6D131 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 4692C60D242DA1EF00E6D131 /* SwiftSoup */; };
+		4692C6112433F41800E6D131 /* BNODetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692C6102433F41800E6D131 /* BNODetailView.swift */; };
 		46AD9CF9241863FC0050C677 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AD9CF8241863FC0050C677 /* WebView.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		4692C6022429A5D200E6D131 /* CovidCountries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidCountries.swift; sourceTree = "<group>"; };
 		4692C608242D873200E6D131 /* BNOViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNOViewModel.swift; sourceTree = "<group>"; };
 		4692C60A242D8CC100E6D131 /* BNOView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNOView.swift; sourceTree = "<group>"; };
+		4692C6102433F41800E6D131 /* BNODetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNODetailView.swift; sourceTree = "<group>"; };
 		46AD9CF8241863FC0050C677 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 				4692C6002429716200E6D131 /* CoronaVirusView.swift */,
 				4692C608242D873200E6D131 /* BNOViewModel.swift */,
 				4692C60A242D8CC100E6D131 /* BNOView.swift */,
+				4692C6102433F41800E6D131 /* BNODetailView.swift */,
 				468E2259240CA2AA00ABFF37 /* Assets.xcassets */,
 				468E225E240CA2AA00ABFF37 /* LaunchScreen.storyboard */,
 				468E2261240CA2AA00ABFF37 /* Info.plist */,
@@ -211,6 +214,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				464FFA68240D7A7200D2AEB7 /* DetailedView.swift in Sources */,
+				4692C6112433F41800E6D131 /* BNODetailView.swift in Sources */,
 				464FFA6A240D91AA00D2AEB7 /* SwiftUIWebView.swift in Sources */,
 				464FFA6C240F0BAB00D2AEB7 /* TrendingView.swift in Sources */,
 				468E2269240CA42700ABFF37 /* Article.swift in Sources */,
@@ -359,8 +363,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Newsist/Newsist.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Newsist/Preview Content\"";
 				DEVELOPMENT_TEAM = DDDAQ32TPA;
 				ENABLE_PREVIEWS = YES;
@@ -371,6 +376,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.breakawaydesign.articiles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -381,8 +387,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Newsist/Newsist.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "\"Newsist/Preview Content\"";
 				DEVELOPMENT_TEAM = DDDAQ32TPA;
 				ENABLE_PREVIEWS = YES;
@@ -393,6 +400,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.breakawaydesign.articiles;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

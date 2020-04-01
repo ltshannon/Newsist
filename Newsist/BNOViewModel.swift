@@ -20,8 +20,9 @@ struct BNOData: Decodable, Hashable {
     let recovered: String
     let yesterdayConfirmed: String
     let yesterdayDeaths: String
+    let href: String
     
-    init(country: String, confirmed: Int, newCases: String, deaths: String, newDeaths: String, deathRate: String, seriousCritical: String, recovered: String, yesterdayConfirmed: String, yesterdayDeaths: String) {
+    init(country: String, confirmed: Int, newCases: String, deaths: String, newDeaths: String, deathRate: String, seriousCritical: String, recovered: String, yesterdayConfirmed: String, yesterdayDeaths: String, href: String) {
         self.country = country
         self.confirmed = confirmed
         self.newCases = newCases
@@ -32,6 +33,7 @@ struct BNOData: Decodable, Hashable {
         self.recovered = recovered
         self.yesterdayConfirmed = yesterdayConfirmed
         self.yesterdayDeaths = yesterdayDeaths
+        self.href = href
     }
 }
 
@@ -114,13 +116,22 @@ class BNOViewModel: ObservableObject {
             let allRows = try bodyContent.select("tr").array()
             for i in 0...allRows.count - 1 {
                 print(try allRows[i].text())
+                
+                var linkHref = ""
+                if let link = try? allRows[i].select("a").array() {
+                    if link.count > 0 {
+                        linkHref = try link[0].attr("href")
+                        print(linkHref)
+                    }
+                }
+                                
                 let divEntries = try allRows[i].select("div").array()
                 if divEntries.count > 0 {
                     let divText = try divEntries[0].text()
                     if let lineNum = Int(divText) {
-                        if lineNum > 6 {
+                        if table == "WORLD" && lineNum > 6 ||  table == "UNITED STATES" && lineNum > 5 {
                             let tdArray = try allRows[i].select("td").array()
-                            parseTD(tdArray: tdArray, table: table)
+                            parseTD(tdArray: tdArray, table: table, href: linkHref)
                         }
                     }
                 }
@@ -134,7 +145,7 @@ class BNOViewModel: ObservableObject {
         
     }
     
-    func parseTD(tdArray: [Element], table: String) {
+    func parseTD(tdArray: [Element], table: String, href: String) {
         
         var country = ""
         var cases = 0
@@ -178,7 +189,7 @@ class BNOViewModel: ObservableObject {
                 }
                 index += 1
             }
-            let c = BNOData(country: country, confirmed: cases, newCases: newCases, deaths: deaths, newDeaths: newDeaths, deathRate: deathRate, seriousCritical: seriousCritical, recovered: recovered, yesterdayConfirmed: yesterdayConfirmed, yesterdayDeaths: yesterdayDeaths)
+            let c = BNOData(country: country, confirmed: cases, newCases: newCases, deaths: deaths, newDeaths: newDeaths, deathRate: deathRate, seriousCritical: seriousCritical, recovered: recovered, yesterdayConfirmed: yesterdayConfirmed, yesterdayDeaths: yesterdayDeaths, href: href)
             
             if country != "TBD" && country != "" {
                 switch table {
@@ -198,7 +209,7 @@ class BNOViewModel: ObservableObject {
         }
         
     }
-    
+/*
     func parseHTML(countryClass: String, valuesClass: String, html: String) {
         
         var countryArray: [String] = []
@@ -237,7 +248,7 @@ class BNOViewModel: ObservableObject {
                 } else if index == 3 {
                     yesterdayCases = item
                     if countryArray[countryCount] == "Vatican City"  {
-                        let c = BNOData(country: countryArray[countryCount], confirmed: cases, newCases: "", deaths: deaths, newDeaths: "", deathRate: "", seriousCritical: "", recovered: "", yesterdayConfirmed: yesterdayCases, yesterdayDeaths: "0")
+                        let c = BNOData(country: countryArray[countryCount], confirmed: cases, newCases: "", deaths: deaths, newDeaths: "", deathRate: "", seriousCritical: "", recovered: "", yesterdayConfirmed: yesterdayCases, yesterdayDeaths: "0", href: "")
 //                        let c = BNOData(country: countryArray[countryCount], confirmed: cases, deaths: deaths, recovered: "", yesterdayConfirmed: yesterdayCases, yesterdayDeaths: "0")
 //                        casesArray.append(c)
                         index = 0
@@ -245,7 +256,7 @@ class BNOViewModel: ObservableObject {
                     }
                 } else if index == 4 {
                     yesterdayDeaths = item
-                    let c = BNOData(country: countryArray[countryCount], confirmed: cases, newCases: "", deaths: deaths, newDeaths: "", deathRate: "", seriousCritical: "", recovered: "", yesterdayConfirmed: yesterdayCases, yesterdayDeaths: yesterdayDeaths)
+                    let c = BNOData(country: countryArray[countryCount], confirmed: cases, newCases: "", deaths: deaths, newDeaths: "", deathRate: "", seriousCritical: "", recovered: "", yesterdayConfirmed: yesterdayCases, yesterdayDeaths: yesterdayDeaths, href: "")
 //                    let c = BNOData(country: countryArray[countryCount], confirmed: cases, deaths: deaths, recovered: "", yesterdayConfirmed: yesterdayCases, yesterdayDeaths: yesterdayDeaths)
 //                    casesArray.append(c)
                     index = 0
@@ -259,5 +270,5 @@ class BNOViewModel: ObservableObject {
             print("error")
         }
     }
-
+*/
 }

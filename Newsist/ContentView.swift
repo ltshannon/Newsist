@@ -15,11 +15,11 @@ struct ContentView: View {
     var body: some View {
 
         TabView(selection: $selectedView) {
-//            Text("My Topics Coming soon")
-//            NavigationView {
+            NavigationView {
 //                CoronaVirusView()
                 BNOView()
-//            }
+            }
+                .navigationViewStyle(StackNavigationViewStyle())
                 .tabItem {
                     Image("newspaper")
                     Text("Covid-19")

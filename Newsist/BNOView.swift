@@ -9,17 +9,46 @@
 import SwiftUI
 
 struct BNOView: View {
+    @ObservedObject var model = BNOViewModel()
     
     var body : some View{
         VStack {
-            Home()
+            Home(covidData: model)
+                .navigationBarItems(trailing:
+                    Button("Refresh") {
+                        self.model.clear()
+                        self.model.fetchData()
+                    }
+                    .foregroundColor(.white)
+                )
+            .navigationBarTitle("Covid-19 Update", displayMode: .inline)
+            .background(NavigationConfigurator { nc in
+                nc.navigationBar.barTintColor = .red
+                nc.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white]
+            })
         }
+//            .navigationBarTitle("Covid-19 Update", displayMode: .inline)
+
     }
     
 }
 
+struct NavigationConfigurator: UIViewControllerRepresentable {
+    var configure: (UINavigationController) -> Void = { _ in }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<NavigationConfigurator>) -> UIViewController {
+        UIViewController()
+    }
+    func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<NavigationConfigurator>) {
+        if let nc = uiViewController.navigationController {
+            self.configure(nc)
+        }
+    }
+
+}
+
 struct Home : View {
-    @ObservedObject var covidData = BNOViewModel()
+    @ObservedObject var covidData: BNOViewModel
     @State var index = 0
     @State var show = true
     
@@ -39,7 +68,8 @@ struct Home : View {
             }
 
             
-        }.edgesIgnoringSafeArea(.top)
+        }
+            .edgesIgnoringSafeArea(.top)
     }
 }
 
@@ -49,28 +79,8 @@ struct appBar : View {
     @Binding var show : Bool
     
     var body : some View{
-        
-        VStack{
-            HStack{
-                Text("Covid-19 Update")
-                    .fontWeight(.bold)
-                    .font(.title)
-                    .foregroundColor(.white)
-               Spacer(minLength: 0)
-                Button(action: {
-                    self.model.clear()
-                    self.model.fetchData()
-                }) {
-                    Text("Refresh")
-                        .foregroundColor(.white)
-/*
-                    Image(systemName: "arrow.clockwise")
-                    .resizable()
-                    .frame(width: 30, height: 30)
-                    .foregroundColor(.white)
-*/
-                }
-            }
+
+        VStack(alignment: .leading) {
             HStack{
                 Button(action: {
                     self.index = 0
@@ -109,12 +119,13 @@ struct appBar : View {
                         .frame(height: 4)
                     }
                 }
-            }.padding(.bottom, 10)
-            
-            
-        }.padding(.horizontal)
-        .padding(.top, (UIApplication.shared.windows.first?.safeAreaInsets.top)! + 10)
-        .background(Color("Color"))
+            }
+                .padding(.bottom, 10)
+        }
+//            .padding(.horizontal)
+            .padding(.top, (UIApplication.shared.windows.first?.safeAreaInsets.top)! + 10)
+            .background(Color("Color"))
+            .frame(alignment: .leading)
     }
 }
 
@@ -123,7 +134,7 @@ struct World: View {
     @Binding var show : Bool
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
                 Text("Country")
                     .padding()
@@ -137,9 +148,8 @@ struct World: View {
             }
             .frame(height: 40)
 
-            List {
-                    
-                ForEach(model.countryDataSet, id: \.self) { values in
+            List (model.countryDataSet, id: \.self) { values in
+                NavigationLink(destination: BNODetailView(url: values.href)) {
                     HStack {
                         Text(values.country)
                             .frame(width: 125, alignment: .leading)
@@ -154,7 +164,6 @@ struct World: View {
             }
         }
     }
-    
 }
 
 struct usaCites : View {
@@ -175,8 +184,8 @@ struct usaCites : View {
             }
             .frame(height: 40)
             
-            List {
-                ForEach(model.usaDataSet, id: \.self) { values in
+            List(model.usaDataSet, id: \.self) { values in
+                NavigationLink(destination: BNODetailView(url: values.href)) {
                     HStack {
                         Text(values.country)
                             .frame(width: 125, alignment: .leading)
@@ -209,6 +218,6 @@ struct Calls : View {
 
 struct BNOView_Previews: PreviewProvider {
     static var previews: some View {
-        BNOView()
+        BNOView(model: BNOViewModel())
     }
 }
