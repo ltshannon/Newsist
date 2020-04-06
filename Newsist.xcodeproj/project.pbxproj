@@ -27,6 +27,8 @@
 		4692C60E242DA1EF00E6D131 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = 4692C60D242DA1EF00E6D131 /* SwiftSoup */; };
 		4692C6112433F41800E6D131 /* BNODetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4692C6102433F41800E6D131 /* BNODetailView.swift */; };
 		46AD9CF9241863FC0050C677 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AD9CF8241863FC0050C677 /* WebView.swift */; };
+		46DBFD0B2437823C000A6A9B /* SDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBFD0A2437823C000A6A9B /* SDViewModel.swift */; };
+		46DBFD0D24378313000A6A9B /* DisplayPDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46DBFD0C24378313000A6A9B /* DisplayPDFView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		4692C60A242D8CC100E6D131 /* BNOView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNOView.swift; sourceTree = "<group>"; };
 		4692C6102433F41800E6D131 /* BNODetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BNODetailView.swift; sourceTree = "<group>"; };
 		46AD9CF8241863FC0050C677 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		46DBFD0A2437823C000A6A9B /* SDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDViewModel.swift; sourceTree = "<group>"; };
+		46DBFD0C24378313000A6A9B /* DisplayPDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayPDFView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,8 @@
 				4692C608242D873200E6D131 /* BNOViewModel.swift */,
 				4692C60A242D8CC100E6D131 /* BNOView.swift */,
 				4692C6102433F41800E6D131 /* BNODetailView.swift */,
+				46DBFD0A2437823C000A6A9B /* SDViewModel.swift */,
+				46DBFD0C24378313000A6A9B /* DisplayPDFView.swift */,
 				468E2259240CA2AA00ABFF37 /* Assets.xcassets */,
 				468E225E240CA2AA00ABFF37 /* LaunchScreen.storyboard */,
 				468E2261240CA2AA00ABFF37 /* Info.plist */,
@@ -223,10 +229,12 @@
 				468E2256240CA2A900ABFF37 /* SceneDelegate.swift in Sources */,
 				4692C6032429A5D200E6D131 /* CovidCountries.swift in Sources */,
 				464FFA66240D79EB00D2AEB7 /* DisplayArticles.swift in Sources */,
+				46DBFD0D24378313000A6A9B /* DisplayPDFView.swift in Sources */,
 				46AD9CF9241863FC0050C677 /* WebView.swift in Sources */,
 				4692C60B242D8CC100E6D131 /* BNOView.swift in Sources */,
 				4692C6012429716200E6D131 /* CoronaVirusView.swift in Sources */,
 				468E2258240CA2A900ABFF37 /* ContentView.swift in Sources */,
+				46DBFD0B2437823C000A6A9B /* SDViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

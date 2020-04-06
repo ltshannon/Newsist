@@ -10,14 +10,17 @@ import SwiftUI
 
 struct BNOView: View {
     @ObservedObject var model = BNOViewModel()
+    @ObservedObject var sdModel = SDViewModel()
     
     var body : some View{
         VStack {
-            Home(covidData: model)
+            Home(covidData: model, sdData: sdModel)
                 .navigationBarItems(trailing:
                     Button("Refresh") {
                         self.model.clear()
                         self.model.fetchData()
+                        self.sdModel.clear()
+                        self.sdModel.fetchData()
                     }
                     .foregroundColor(.white)
                 )
@@ -49,6 +52,7 @@ struct NavigationConfigurator: UIViewControllerRepresentable {
 
 struct Home : View {
     @ObservedObject var covidData: BNOViewModel
+    @ObservedObject var sdData: SDViewModel
     @State var index = 0
     @State var show = true
     
@@ -56,15 +60,17 @@ struct Home : View {
         
         VStack(spacing: 0){
             
-            appBar(model: covidData, index: self.$index,show: self.$show)
+//            appBar(model: covidData, index: self.$index, show: self.$show)
+            appBar(index: self.$index)
             
             ZStack{
-                
                 DisplayData(type: "World", model: covidData).opacity(self.index == 0 ? 1.0 : 0.0)
                 
                 DisplayData(type: "USA", model: covidData).opacity(self.index == 1 ? 1.0 : 0.0)
                 
-                Calls().opacity(self.index == 2 ? 1.0 : 0.0)
+                SanDiegoData(model: sdData).opacity(self.index == 2 ? 1.0 : 0.0)
+                
+                DisplayData(type: "J Hopkins", model: covidData).opacity(self.index == 3 ? 1.0 : 0.0)
             }
 
             
@@ -74,9 +80,9 @@ struct Home : View {
 }
 
 struct appBar : View {
-    @ObservedObject var model: BNOViewModel
+//    @ObservedObject var model: BNOViewModel
     @Binding var index : Int
-    @Binding var show : Bool
+//    @Binding var show : Bool
     
     var body : some View{
 
@@ -85,7 +91,6 @@ struct appBar : View {
                 Button(action: {
                     self.index = 0
                 }) {
-                    
                     VStack{
                         Text("World")
                             .foregroundColor(.white)
@@ -99,7 +104,7 @@ struct appBar : View {
                     self.index = 1
                 }) {
                     VStack{
-                        Text("Untied States")
+                        Text("USA")
                             .foregroundColor(.white)
                             .fontWeight(self.index == 1 ? .bold : .none)
                         Capsule().fill(self.index == 1 ? Color.white : Color.clear)
@@ -111,11 +116,22 @@ struct appBar : View {
                     self.index = 2
                 }) {
                     VStack{
-                        Text("")
+                        Text("San Diego")
                             .foregroundColor(.white)
                             .fontWeight(self.index == 2 ? .bold : .none)
-                        
                         Capsule().fill(self.index == 2 ? Color.white : Color.clear)
+                        .frame(height: 4)
+                    }
+                }
+                Button(action: {
+                    self.index = 3
+                }) {
+                    VStack{
+                        Text("J Hopkins")
+                            .foregroundColor(.white)
+                            .fontWeight(self.index == 3 ? .bold : .none)
+                            .padding(.trailing, 20)
+                        Capsule().fill(self.index == 3 ? Color.white : Color.clear)
                         .frame(height: 4)
                     }
                 }
@@ -132,6 +148,7 @@ struct appBar : View {
 struct DisplayData: View {
     let type: String
     @ObservedObject var model: BNOViewModel
+    
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @State var index = 1
@@ -140,7 +157,7 @@ struct DisplayData: View {
         VStack(alignment: .leading) {
             HStack {
                 Button(action: {
-                    self.model.sort(sortBy: .country)
+                self.model.sort(sortBy: .country)
                     self.index = 0
                 }) {
                     HStack {
@@ -231,9 +248,9 @@ struct DisplayData: View {
                 }
             }
             .frame(height: 40)
-
             
-            List (type == "World" ? model.countryDataSet : model.usaDataSet, id: \.self) { values in
+//            List (type == "World" ? model.countryDataSet : model.usaDataSet, id: \.self) { values in
+            List (getModel(type: type, model: model), id: \.self) { values in
                 NavigationLink(destination: BNODetailView(url: values.href)) {
                     HStack {
                         Text(values.country)
@@ -263,15 +280,44 @@ struct DisplayData: View {
     }
 }
 
-struct Calls : View {
+func getModel(type: String, model: BNOViewModel)-> [BNOData] {
+    var modelType: [BNOData]
+    
+    switch type {
+    case "World":
+        modelType = model.countryDataSet
+    case "USA":
+        modelType = model.usaDataSet
+    case "J Hopkins":
+        modelType = model.jhDataSet
+    default:
+        modelType = []
+        print("invalid getModel")
+    }
+    
+    return modelType
+}
+
+struct SanDiegoData : View {
+    @ObservedObject var model: SDViewModel
     
     var body : some View{
         
-        GeometryReader{_ in
-            
-            VStack{
-                
-                Text("Calls")
+        VStack {
+            Spacer()
+            Text(model.sdDataStats.statement)
+                .padding()
+            Spacer()
+            Text("Total Positives: \(model.sdDataStats.cases)")
+            Spacer()
+            Text("Deaths: \(model.sdDataStats.deaths)")
+            Spacer()
+            List (model.sdDataSet, id: \.self) { values in
+                NavigationLink(destination: DisplayPDFView(url: values.url)) {
+                    VStack {
+                        Text(values.name)
+                    }
+                }
             }
         }
     }

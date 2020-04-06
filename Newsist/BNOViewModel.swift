@@ -56,10 +56,13 @@ class BNOViewModel: ObservableObject {
     @Published var newCasesArrow: Bool = true
     @Published var newDeathsArrow: Bool = true
     @Published var deathsArrow: Bool = true
-
+    @Published var jhDataSet: [BNOData] = []
+    @Published var womDataSet: [BNOData] = []
 
     var countryArray: [BNOData] = []
     var usaArray: [BNOData] = []
+    var jhTempDataSet: [BNOData] = []
+    var womTempDataSet: [BNOData] = []
     var html: String = ""
 
     init() {
@@ -116,6 +119,175 @@ class BNOViewModel: ObservableObject {
 
         }.resume()
 
+        let urlString2 = "https://coronavirus.jhu.edu/data/mortality"
+        guard let url2 = URL(string: urlString2) else {
+            fatalError("Invalid URL")
+        }
+                    
+        URLSession.shared.dataTask(with: url2) { data, response, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            if let htmlContentString = String.init(data: data, encoding: String.Encoding(rawValue:String.Encoding.utf8.rawValue)) {
+                do {
+                    let doc : Document = try SwiftSoup.parse(htmlContentString)
+                    var country: String = ""
+                    var confirmed: Int = 0
+                    var deaths: Int = 0
+                    var caseFatality: Double = 0
+//                    var deaths100KPop: Double = 0
+                    let tableBody = try doc.select("table").array()
+                    if tableBody.count > 0 {
+                        let allRows = try tableBody[0].select("tr").array()
+                        for i in 0...allRows.count - 1 {
+                            let row = try allRows[i].text()
+                            print("tr: \(try allRows[i].text())")
+                            if row.contains("Case-Fatality") {
+                                continue
+                            }
+                            let tdArray = try allRows[i].select("td").array()
+                            if tdArray.count == 5 {
+                                for i in 0...tdArray.count - 1 {
+                                    if i == 0 {
+                                        country = try tdArray[i].text()
+                                    } else {
+                                        switch i {
+                                        case 1:
+                                            var temp = try tdArray[i].text()
+                                            temp = temp.replacingOccurrences(of: ",", with: "")
+                                            if let num = Int(temp) {
+                                                confirmed = num
+                                            }
+                                        case 2:
+                                            var temp = try tdArray[i].text()
+                                            temp = temp.replacingOccurrences(of: ",", with: "")
+                                            if let num = Int(temp) {
+                                                deaths = num
+                                            }
+                                        case 3:
+                                            var temp = try tdArray[i].text()
+                                            temp = temp.replacingOccurrences(of: "%", with: "")
+                                            if let num = Double(temp) {
+                                                caseFatality = num
+                                            }
+//                                        case 4:
+//                                            let temp = try tdArray[i].text()
+//                                            if let num = Double(temp) {
+//                                                deaths100KPop = num
+//                                            }
+                                        default:
+                                            print("extra data in JD data")
+                                        }
+                                    }
+                                }
+                            }
+        //                            let d = JHData(country: country, confirmed: confirmed, deaths: deaths, caseFatality: caseFatality, deaths100KPop: deaths100KPop)
+                            let d = BNOData(country: country, confirmed: confirmed, newCases: 0, deaths: deaths, newDeaths: 0, deathRate: caseFatality, seriousCritical: 0, recovered: 0, yesterdayConfirmed: "", yesterdayDeaths: "", href: "")
+
+                            self.jhTempDataSet.append(d)
+                        }
+                    }
+                                
+                    self.jhTempDataSet.sort{$0.confirmed > $1.confirmed}
+                    DispatchQueue.main.async {
+                        self.jhDataSet = self.jhTempDataSet
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
+                            
+            }
+                        
+        }.resume()
+        
+        let urlString3 = "https://www.worldometers.info/coronavirus/"
+        guard let url3 = URL(string: urlString3) else {
+            fatalError("Invalid URL")
+        }
+                    
+        URLSession.shared.dataTask(with: url3) { data, response, error in
+            guard let data = data, error == nil else {
+                return
+            }
+            if let htmlContentString = String.init(data: data, encoding: String.Encoding(rawValue:String.Encoding.utf8.rawValue)) {
+                do {
+                    let doc : Document = try SwiftSoup.parse(htmlContentString)
+                    var country = ""
+                    var cases = 0
+                    var newCases = 0
+                    var deaths = 0
+                    var newDeaths = 0
+                    var recovered = 0
+                    let tableBody = try doc.select("table").array()
+                    if tableBody.count > 0 {
+                        let allRows = try tableBody[0].select("tr").array()
+                        for i in 0...allRows.count - 1 {
+                            let row = try allRows[i].text()
+                            print("tr: \(try allRows[i].text())")
+                            if row.contains("Country, Other") {
+                                continue
+                            }
+                            let tdArray = try allRows[i].select("td").array()
+                            if tdArray.count == 12 {
+                                for i in 0...tdArray.count - 1 {
+                                    switch i {
+                                    case 0:
+                                        country = try tdArray[i].text()
+                                    case 1:
+                                        var temp = try tdArray[i].text()
+                                        temp = temp.replacingOccurrences(of: ",", with: "")
+                                        if let num = Int(temp) {
+                                            cases = num
+                                        }
+                                    case 2:
+                                        var temp = try tdArray[i].text()
+                                        temp = temp.replacingOccurrences(of: ",", with: "")
+                                        if let num = Int(temp) {
+                                            newCases = num
+                                        }
+                                    case 3:
+                                        var temp = try tdArray[i].text()
+                                        temp = temp.replacingOccurrences(of: ",", with: "")
+                                        if let num = Int(temp) {
+                                            deaths = num
+                                        }
+                                    case 4:
+                                        var temp = try tdArray[i].text()
+                                        temp = temp.replacingOccurrences(of: ",", with: "")
+                                        temp = temp.replacingOccurrences(of: "+", with: "")
+                                        if let num = Int(temp) {
+                                            newDeaths = num
+                                        }
+                                    case 5:
+                                        var temp = try tdArray[i].text()
+                                        temp = temp.replacingOccurrences(of: ",", with: "")
+                                        if let num = Int(temp) {
+                                            recovered = num
+                                        }
+                                    case 6, 7, 8, 9, 10, 11:
+                                        _ = try tdArray[i].text()
+                                    default:
+                                        print("extra data in WOM data")
+                                    }
+                                }
+                            }
+                            let d = BNOData(country: country, confirmed: cases, newCases: newCases, deaths: deaths, newDeaths: newDeaths, deathRate: 0, seriousCritical: 0, recovered: recovered, yesterdayConfirmed: "", yesterdayDeaths: "", href: "")
+
+                            self.womTempDataSet.append(d)
+                        }
+                    }
+                                
+                    self.womTempDataSet.sort{$0.confirmed > $1.confirmed}
+                    DispatchQueue.main.async {
+                        self.womDataSet = self.jhTempDataSet
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
+                            
+            }
+                        
+        }.resume()
     }
     
     func clear() {
@@ -124,6 +296,8 @@ class BNOViewModel: ObservableObject {
         countryArray.removeAll()
         usaDataSet.removeAll()
         usaArray.removeAll()
+        jhTempDataSet.removeAll()
+        jhDataSet.removeAll()
         
     }
     
@@ -134,62 +308,76 @@ class BNOViewModel: ObservableObject {
             if countryArrow {
                 self.countryArray.sort{$0.country < $1.country}
                 self.usaArray.sort{$0.country < $1.country}
+                self.jhTempDataSet.sort{$0.country < $1.country}
             } else {
                 self.countryArray.sort{$0.country > $1.country}
                 self.usaArray.sort{$0.country > $1.country}
+                self.jhTempDataSet.sort{$0.country > $1.country}
             }
             countryArrow.toggle()
         case .confirmed:
             if confirmedArrow {
                 self.countryArray.sort{$0.confirmed > $1.confirmed}
                 self.usaArray.sort{$0.confirmed > $1.confirmed}
+                self.jhTempDataSet.sort{$0.confirmed > $1.confirmed}
             } else {
                 self.countryArray.sort{$0.confirmed < $1.confirmed}
                 self.usaArray.sort{$0.confirmed < $1.confirmed}
+                self.jhTempDataSet.sort{$0.confirmed < $1.confirmed}
             }
             confirmedArrow.toggle()
         case .newCases:
             if newCasesArrow {
                 self.countryArray.sort{$0.newCases > $1.newCases}
                 self.usaArray.sort{$0.newCases > $1.newCases}
+                self.jhTempDataSet.sort{$0.newCases > $1.newCases}
             }
             else {
                 self.countryArray.sort{$0.newCases < $1.newCases}
                 self.usaArray.sort{$0.newCases < $1.newCases}
+                self.jhTempDataSet.sort{$0.newCases < $1.newCases}
             }
             newCasesArrow.toggle()
         case .deaths:
             if deathsArrow {
                 self.countryArray.sort{$0.deaths > $1.deaths}
                 self.usaArray.sort{$0.deaths > $1.deaths}
+                self.jhTempDataSet.sort{$0.deaths > $1.deaths}
             } else {
                 self.countryArray.sort{$0.deaths < $1.deaths}
                 self.usaArray.sort{$0.deaths < $1.deaths}
+                self.jhTempDataSet.sort{$0.deaths < $1.deaths}
             }
             deathsArrow.toggle()
         case .newDeaths:
             if newDeathsArrow {
                 self.countryArray.sort{$0.newDeaths > $1.newDeaths}
                 self.usaArray.sort{$0.newDeaths > $1.newDeaths}
+                self.jhTempDataSet.sort{$0.newDeaths > $1.newDeaths}
             } else {
                 self.countryArray.sort{$0.newDeaths < $1.newDeaths}
                 self.usaArray.sort{$0.newDeaths < $1.newDeaths}
+                self.jhTempDataSet.sort{$0.newDeaths < $1.newDeaths}
             }
             newDeathsArrow.toggle()
         case .deathRate:
             self.countryArray.sort{$0.deathRate > $1.deathRate}
             self.usaArray.sort{$0.deathRate > $1.deathRate}
+            self.jhTempDataSet.sort{$0.deathRate > $1.deathRate}
         case .seriousCritical:
             self.countryArray.sort{$0.seriousCritical > $1.seriousCritical}
             self.usaArray.sort{$0.seriousCritical > $1.seriousCritical}
+            self.jhTempDataSet.sort{$0.seriousCritical > $1.seriousCritical}
         case .recovered:
             self.countryArray.sort{$0.recovered > $1.recovered}
             self.usaArray.sort{$0.recovered > $1.recovered}
+            self.jhTempDataSet.sort{$0.recovered > $1.recovered}
         }
         
         DispatchQueue.main.async {
             self.countryDataSet = self.countryArray
             self.usaDataSet = self.usaArray
+            self.jhDataSet = self.jhTempDataSet
         }
     }
     
