@@ -15,8 +15,9 @@ struct BNOView: View {
     var body : some View{
         VStack {
             Home(covidData: model, sdData: sdModel)
+
                 .navigationBarItems(trailing:
-                    Button("Refresh") {
+                        Button("Refresh") {
                         self.model.clear()
                         self.model.fetchData()
                         self.sdModel.clear()
@@ -56,7 +57,7 @@ struct Home : View {
     @State var index = 0
     @State var show = true
     
-    var body : some View{
+    var body : some View {
         
         VStack(spacing: 0){
             
@@ -71,22 +72,21 @@ struct Home : View {
                 SanDiegoData(model: sdData).opacity(self.index == 2 ? 1.0 : 0.0)
                 
                 DisplayData(type: "J Hopkins", model: covidData).opacity(self.index == 3 ? 1.0 : 0.0)
+                
+                DisplayData(type: "WorldoMeter", model: covidData).opacity(self.index == 4 ? 1.0 : 0.0)
             }
-
-            
         }
             .edgesIgnoringSafeArea(.top)
     }
 }
 
 struct appBar : View {
-//    @ObservedObject var model: BNOViewModel
     @Binding var index : Int
-//    @Binding var show : Bool
     
     var body : some View{
 
         VStack(alignment: .leading) {
+            ScrollView (.horizontal, showsIndicators: false) {
             HStack{
                 Button(action: {
                     self.index = 0
@@ -95,11 +95,11 @@ struct appBar : View {
                         Text("World")
                             .foregroundColor(.white)
                             .fontWeight(self.index == 0 ? .bold : .none)
+                            .frame(width: 100)
                         Capsule().fill(self.index == 0 ? Color.white : Color.clear)
                         .frame(height: 4)
                     }
                 }
-                
                 Button(action: {
                     self.index = 1
                 }) {
@@ -107,11 +107,11 @@ struct appBar : View {
                         Text("USA")
                             .foregroundColor(.white)
                             .fontWeight(self.index == 1 ? .bold : .none)
+                            .frame(width: 40)
                         Capsule().fill(self.index == 1 ? Color.white : Color.clear)
                         .frame(height: 4)
                     }
                 }
-                
                 Button(action: {
                     self.index = 2
                 }) {
@@ -119,6 +119,7 @@ struct appBar : View {
                         Text("San Diego")
                             .foregroundColor(.white)
                             .fontWeight(self.index == 2 ? .bold : .none)
+                            .frame(width: 100)
                         Capsule().fill(self.index == 2 ? Color.white : Color.clear)
                         .frame(height: 4)
                     }
@@ -130,25 +131,38 @@ struct appBar : View {
                         Text("J Hopkins")
                             .foregroundColor(.white)
                             .fontWeight(self.index == 3 ? .bold : .none)
-                            .padding(.trailing, 20)
+                            .frame(width: 100)
                         Capsule().fill(self.index == 3 ? Color.white : Color.clear)
+                        .frame(height: 4)
+                    }
+                }
+                Button(action: {
+                    self.index = 4
+                }) {
+                    VStack{
+                        Text("WorldoMeter")
+                            .foregroundColor(.white)
+                            .fontWeight(self.index == 4 ? .bold : .none)
+                            .frame(width: 130)
+                        Capsule().fill(self.index == 4 ? Color.white : Color.clear)
                         .frame(height: 4)
                     }
                 }
             }
                 .padding(.bottom, 10)
+            }
         }
 //            .padding(.horizontal)
             .padding(.top, (UIApplication.shared.windows.first?.safeAreaInsets.top)! + 10)
+//            .padding(.top)
             .background(Color("Color"))
-            .frame(alignment: .leading)
+            .frame(height: 125, alignment: .leading)
     }
 }
 
 struct DisplayData: View {
     let type: String
     @ObservedObject var model: BNOViewModel
-    
     @Environment(\.verticalSizeClass) var verticalSizeClass: UserInterfaceSizeClass?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass: UserInterfaceSizeClass?
     @State var index = 1
@@ -226,6 +240,7 @@ struct DisplayData: View {
                     }
                     .frame(width: 80)
                 }
+
                 if horizontalSizeClass == .regular && verticalSizeClass == .compact || horizontalSizeClass == .regular && verticalSizeClass == .regular  {
                     Button(action: {
                         self.model.sort(sortBy: .deathRate)
@@ -246,10 +261,10 @@ struct DisplayData: View {
                             .frame(width: 100, alignment: .leading)
                     }
                 }
+
             }
             .frame(height: 40)
             
-//            List (type == "World" ? model.countryDataSet : model.usaDataSet, id: \.self) { values in
             List (getModel(type: type, model: model), id: \.self) { values in
                 NavigationLink(destination: BNODetailView(url: values.href)) {
                     HStack {
@@ -290,6 +305,8 @@ func getModel(type: String, model: BNOViewModel)-> [BNOData] {
         modelType = model.usaDataSet
     case "J Hopkins":
         modelType = model.jhDataSet
+    case "WorldoMeter":
+        modelType = model.womDataSet
     default:
         modelType = []
         print("invalid getModel")

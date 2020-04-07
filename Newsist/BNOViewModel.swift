@@ -224,7 +224,7 @@ class BNOViewModel: ObservableObject {
                         for i in 0...allRows.count - 1 {
                             let row = try allRows[i].text()
                             print("tr: \(try allRows[i].text())")
-                            if row.contains("Country, Other") {
+                            if row.contains("Country, Other") || row.contains("World") {
                                 continue
                             }
                             let tdArray = try allRows[i].select("td").array()
@@ -279,7 +279,7 @@ class BNOViewModel: ObservableObject {
                                 
                     self.womTempDataSet.sort{$0.confirmed > $1.confirmed}
                     DispatchQueue.main.async {
-                        self.womDataSet = self.jhTempDataSet
+                        self.womDataSet = self.womTempDataSet
                     }
                 } catch {
                     print(error.localizedDescription)
@@ -298,6 +298,8 @@ class BNOViewModel: ObservableObject {
         usaArray.removeAll()
         jhTempDataSet.removeAll()
         jhDataSet.removeAll()
+        womTempDataSet.removeAll()
+        womDataSet.removeAll()
         
     }
     
@@ -309,10 +311,12 @@ class BNOViewModel: ObservableObject {
                 self.countryArray.sort{$0.country < $1.country}
                 self.usaArray.sort{$0.country < $1.country}
                 self.jhTempDataSet.sort{$0.country < $1.country}
+                self.womTempDataSet.sort{$0.country < $1.country}
             } else {
                 self.countryArray.sort{$0.country > $1.country}
                 self.usaArray.sort{$0.country > $1.country}
                 self.jhTempDataSet.sort{$0.country > $1.country}
+                self.womTempDataSet.sort{$0.country > $1.country}
             }
             countryArrow.toggle()
         case .confirmed:
@@ -320,10 +324,12 @@ class BNOViewModel: ObservableObject {
                 self.countryArray.sort{$0.confirmed > $1.confirmed}
                 self.usaArray.sort{$0.confirmed > $1.confirmed}
                 self.jhTempDataSet.sort{$0.confirmed > $1.confirmed}
+                self.womTempDataSet.sort{$0.confirmed > $1.confirmed}
             } else {
                 self.countryArray.sort{$0.confirmed < $1.confirmed}
                 self.usaArray.sort{$0.confirmed < $1.confirmed}
                 self.jhTempDataSet.sort{$0.confirmed < $1.confirmed}
+                self.womTempDataSet.sort{$0.confirmed < $1.confirmed}
             }
             confirmedArrow.toggle()
         case .newCases:
@@ -331,11 +337,13 @@ class BNOViewModel: ObservableObject {
                 self.countryArray.sort{$0.newCases > $1.newCases}
                 self.usaArray.sort{$0.newCases > $1.newCases}
                 self.jhTempDataSet.sort{$0.newCases > $1.newCases}
+                self.womTempDataSet.sort{$0.newCases > $1.newCases}
             }
             else {
                 self.countryArray.sort{$0.newCases < $1.newCases}
                 self.usaArray.sort{$0.newCases < $1.newCases}
                 self.jhTempDataSet.sort{$0.newCases < $1.newCases}
+                self.womTempDataSet.sort{$0.newCases < $1.newCases}
             }
             newCasesArrow.toggle()
         case .deaths:
@@ -343,10 +351,12 @@ class BNOViewModel: ObservableObject {
                 self.countryArray.sort{$0.deaths > $1.deaths}
                 self.usaArray.sort{$0.deaths > $1.deaths}
                 self.jhTempDataSet.sort{$0.deaths > $1.deaths}
+                self.womTempDataSet.sort{$0.deaths > $1.deaths}
             } else {
                 self.countryArray.sort{$0.deaths < $1.deaths}
                 self.usaArray.sort{$0.deaths < $1.deaths}
                 self.jhTempDataSet.sort{$0.deaths < $1.deaths}
+                self.womTempDataSet.sort{$0.deaths < $1.deaths}
             }
             deathsArrow.toggle()
         case .newDeaths:
@@ -354,30 +364,36 @@ class BNOViewModel: ObservableObject {
                 self.countryArray.sort{$0.newDeaths > $1.newDeaths}
                 self.usaArray.sort{$0.newDeaths > $1.newDeaths}
                 self.jhTempDataSet.sort{$0.newDeaths > $1.newDeaths}
+                self.womTempDataSet.sort{$0.newDeaths > $1.newDeaths}
             } else {
                 self.countryArray.sort{$0.newDeaths < $1.newDeaths}
                 self.usaArray.sort{$0.newDeaths < $1.newDeaths}
                 self.jhTempDataSet.sort{$0.newDeaths < $1.newDeaths}
+                self.womTempDataSet.sort{$0.newDeaths < $1.newDeaths}
             }
             newDeathsArrow.toggle()
         case .deathRate:
             self.countryArray.sort{$0.deathRate > $1.deathRate}
             self.usaArray.sort{$0.deathRate > $1.deathRate}
             self.jhTempDataSet.sort{$0.deathRate > $1.deathRate}
+            self.womTempDataSet.sort{$0.deathRate > $1.deathRate}
         case .seriousCritical:
             self.countryArray.sort{$0.seriousCritical > $1.seriousCritical}
             self.usaArray.sort{$0.seriousCritical > $1.seriousCritical}
             self.jhTempDataSet.sort{$0.seriousCritical > $1.seriousCritical}
+            self.womTempDataSet.sort{$0.seriousCritical > $1.seriousCritical}
         case .recovered:
             self.countryArray.sort{$0.recovered > $1.recovered}
             self.usaArray.sort{$0.recovered > $1.recovered}
             self.jhTempDataSet.sort{$0.recovered > $1.recovered}
+            self.womTempDataSet.sort{$0.recovered > $1.recovered}
         }
         
         DispatchQueue.main.async {
             self.countryDataSet = self.countryArray
             self.usaDataSet = self.usaArray
             self.jhDataSet = self.jhTempDataSet
+            self.womDataSet = self.womTempDataSet
         }
     }
     
